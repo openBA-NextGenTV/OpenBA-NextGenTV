@@ -1,0 +1,82 @@
+{
+  "name": "broadcast-applicaiton",
+  "description": "Broadcast Application",
+  "version": "0.1.0",
+  "private": true,
+  "homepage": ".",
+  "dependencies": {
+    "@apollo/client": "^3.3.7",
+    "@babel/helper-regex": "^7.10.5",
+    "@types/hls.js": "^0.13.3",
+    "@types/object-hash": "^2.1.0",
+    "@types/react": "^17.0.0",
+    "@types/react-dom": "^17.0.0",
+    "@types/react-resize-detector": "^5.0.0",
+    "@types/uuid": "^8.3.0",
+    "fast-xml-parser": "^3.19.0",
+    "graphql": "^15.4.0",
+    "hls.js": "^0.14.17",
+    "i18next": "^19.8.4",
+    "json-rpc-protocol": "^0.13.1",
+    "normalize.css": "^8.0.1",
+    "object-hash": "^2.1.1",
+    "react": "^17.0.1",
+    "react-dom": "^17.0.1",
+    "react-ga": "^3.2.0",
+    "react-i18next": "^11.7.3",
+    "react-resize-detector": "^5.2.0",
+    "react-scripts": "^4.0.1",
+    "styled-components": "^5.2.1",
+    "typescript": "^4.1.3",
+    "uuid": "^8.3.1"
+  },
+  "devDependencies": {
+    "@google-cloud/storage": "^5.7.2",
+    "@graphql-codegen/cli": "^1.21.3",
+    "@graphql-codegen/introspection": "^1.18.1",
+    "@graphql-codegen/typescript": "^1.21.1",
+    "@graphql-codegen/typescript-operations": "^1.17.15",
+    "@graphql-codegen/typescript-react-apollo": "^2.2.3",
+    "@testing-library/jest-dom": "^5.11.4",
+    "@testing-library/react": "^11.1.0",
+    "@testing-library/user-event": "^12.1.10",
+    "@types/jest": "^26.0.15",
+    "@types/react-test-renderer": "^17.0.1",
+    "@types/styled-components": "^5.1.4",
+    "@typescript-eslint/eslint-plugin": "^4.14.0",
+    "@typescript-eslint/parser": "^4.14.0",
+    "bestzip": "^2.1.7",
+    "eslint-config-prettier": "^7.2.0",
+    "eslint-plugin-prettier": "^3.3.1",
+    "eslint-plugin-react": "^7.22.0",
+    "eslint-plugin-react-hooks": "^4.2.0",
+    "eslint-plugin-simple-import-sort": "^7.0.0",
+    "prettier": "2.1.2",
+    "react-test-renderer": "^17.0.2",
+    "source-map-explorer": "^2.5.0"
+  },
+  "scripts": {
+    "start": "react-scripts start",
+    "atscMockServer": "node atscMockServer",
+    "test": "react-scripts test",
+    "build": "GENERATE_SOURCEMAP=false react-scripts build",
+    "buildAndRun": "react-scripts build && npx http-server ./build",
+    "analyze": "source-map-explorer 'build/static/js/*.js'",
+    "codegen": "graphql-codegen --config codegen.yml"
+  },
+  "eslintConfig": {
+    "extends": "react-app"
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  }
+}

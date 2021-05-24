@@ -1,0 +1,30 @@
+{
+  "menu": {
+    "alerts": "Alertas",
+    "xt": "XT",
+    "radio": "Radio",
+    "seattleRadio": "Seattle Radio",
+    "weather": "Clima",
+    "topStories": "Historias destacadas",
+    "localNews": "Locales",
+    "nationWorld": "Nación y mundo",
+    "sports": "Deportes",
+    "entertainment": "Entretenimiento",
+    "watch_now": "Ver ahora",
+    "settings": "Ajustes",
+    "privacyPolicy": "Privacy Policy",
+    "fips": "FIPS Code",
+    "priority": {
+      "title": "Prioridad",
+      "items": {
+        "emergencyOnly": "Sólo emergencias",
+        "high": "Alta",
+        "medium": "Medio (recomendado)",
+        "low": "Baja",
+        "diagnostic": "Alertas de diagnóstico (no recomendado)",
+        "noAlerts": "No Alertas"
+      }
+    },
+    "systemInfo": "System Info"
+  }
+}

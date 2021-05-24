@@ -1,0 +1,122 @@
+{
+  "id": "menu_root",
+  "title": "",
+  "showTime": true,
+  "selected": true,
+  "items": [
+    {
+      "id": "menu_logo",
+      "title": "",
+      "items": null
+    },
+    {
+      "id": "menu_alerts",
+      "title": "menu.alerts",
+      "selected": true,
+      "noItemsText": "No current alerts"
+    },
+    {
+      "id": "menu_weather",
+      "title": "menu.weather",
+      "items": [
+        {
+          "id": "menu_weather_latestWeathercast",
+          "title": "Latest Weathercast",
+          "widget": {
+            "type": "latestWeathercast",
+            "metric": {
+              "page": "Weather",
+              "title": "Latest Weathercast"
+            }
+          }
+        },
+        {
+          "id": "menu_weather_7days",
+          "title": "7 days Forecast",
+          "widget": {
+            "type": "sevenDayForecast",
+            "metric": {
+              "page": "Weather",
+              "title": "7 days Forecast"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "menu_topStories",
+      "title": "menu.topStories",
+      "noItemsText": "No Top Stories currently available"
+    },
+    {
+      "id": "menu_localNews",
+      "title": "menu.localNews",
+      "noItemsText": "No Local News currently available"
+    },
+    {
+      "id": "menu_nationWorld",
+      "title": "menu.nationWorld",
+      "noItemsText": "No Nation & World currently available"
+    },
+    {
+      "id": "menu_sports",
+      "title": "menu.sports",
+      "noItemsText": "No Sports currently available"
+    },
+    {
+      "id": "menu_entertainment",
+      "title": "menu.entertainment",
+      "noItemsText": "No Entertainment currently available"
+    },
+    {
+      "id": "menu_settings",
+      "title": "menu.settings",
+      "items": [
+        {
+          "id": "menu_settings_privacyPolicy",
+          "title": "menu.privacyPolicy",
+          "widget": {
+            "type": "privacyPolicy",
+            "metric": {
+              "page": "Privacy Policy",
+              "title": null
+            }
+          }
+        },
+        {
+          "id": "menu_settings_fips",
+          "title": "menu.fips",
+          "widget": {
+            "type": "fips",
+            "metric": {
+              "page": "FIPS Code",
+              "title": null
+            }
+          }
+        },
+        {
+          "id": "menu_settings_priority",
+          "title": "menu.priority.title",
+          "widget": {
+            "type": "priority",
+            "metric": {
+              "page": "Priority",
+              "title": null
+            }
+          }
+        },
+        {
+          "id": "menu_settings_systemInfo",
+          "title": "menu.systemInfo",
+          "widget": {
+            "type": "systemInfo",
+            "metric": {
+              "page": "System Info",
+              "title": null
+            }
+          }
+        }
+      ]
+    }
+  ]
+}

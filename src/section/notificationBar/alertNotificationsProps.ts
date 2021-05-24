@@ -1,0 +1,93 @@
+type Item = {
+  iconPath: string;
+  bgAlertColor: string;
+};
+
+const items: [key: string, value: Item][] = [
+  ['EAN', { iconPath: 'icons/alert/EAN.svg', bgAlertColor: '#FA0000' }],
+  ['TOR', { iconPath: 'icons/alert/TOR.svg', bgAlertColor: '#FA0000' }],
+  ['TSW', { iconPath: 'icons/alert/TSW.svg', bgAlertColor: '#FA0000' }],
+  ['AVW', { iconPath: 'icons/alert/AVW.svg', bgAlertColor: '#FA0000' }],
+  ['BLU', { iconPath: 'icons/alert/BLU.svg', bgAlertColor: '#FA0000' }],
+  ['BZW', { iconPath: 'icons/alert/BZW.svg', bgAlertColor: '#FA0000' }],
+  ['CAE', { iconPath: 'icons/alert/CAE.svg', bgAlertColor: '#FA0000' }],
+  ['CDW', { iconPath: 'icons/alert/EAN.svg', bgAlertColor: '#FA0000' }],
+  ['CEM', { iconPath: 'icons/alert/EAN.svg', bgAlertColor: '#FA0000' }],
+  ['CFW', { iconPath: 'icons/alert/CFW.svg', bgAlertColor: '#FA0000' }],
+  ['DSW', { iconPath: 'icons/alert/DSW.svg', bgAlertColor: '#FA0000' }],
+  ['EQW', { iconPath: 'icons/alert/EQW.svg', bgAlertColor: '#FA0000' }],
+  ['EVI', { iconPath: 'icons/alert/EVI.svg', bgAlertColor: '#FA0000' }],
+  ['EWW', { iconPath: 'icons/alert/EWW.svg', bgAlertColor: '#FA0000' }],
+  ['FFW', { iconPath: 'icons/alert/CFW.svg', bgAlertColor: '#FA0000' }],
+  ['FLW', { iconPath: 'icons/alert/CFW.svg', bgAlertColor: '#FA0000' }],
+  ['FRW', { iconPath: 'icons/alert/FRW.svg', bgAlertColor: '#FA0000' }],
+  ['HMW', { iconPath: 'icons/alert/HMW.svg', bgAlertColor: '#FA0000' }],
+  ['HUW', { iconPath: 'icons/alert/HUW.svg', bgAlertColor: '#FA0000' }],
+  ['HWW', { iconPath: 'icons/alert/HWW.svg', bgAlertColor: '#FA0000' }],
+  ['LAE', { iconPath: 'icons/alert/EAN.svg', bgAlertColor: '#FA0000' }],
+  ['LEW', { iconPath: 'icons/alert/LEW.svg', bgAlertColor: '#FA0000' }],
+  ['NUW', { iconPath: 'icons/alert/NUW.svg', bgAlertColor: '#FA0000' }],
+  ['RHW', { iconPath: 'icons/alert/RHW.svg', bgAlertColor: '#FA0000' }],
+  ['SMW', { iconPath: 'icons/alert/SMW.svg', bgAlertColor: '#FA0000' }],
+  ['SPW', { iconPath: 'icons/alert/SPW.svg', bgAlertColor: '#FA0000' }],
+  ['SSW', { iconPath: 'icons/alert/SSW.svg', bgAlertColor: '#FA0000' }],
+  ['SVR', { iconPath: 'icons/alert/SVR.svg', bgAlertColor: '#FA0000' }],
+  ['TOE', { iconPath: 'icons/alert/TOE.svg', bgAlertColor: '#FA0000' }],
+  ['TRW', { iconPath: 'icons/alert/TRW.svg', bgAlertColor: '#FA0000' }],
+  ['VOW', { iconPath: 'icons/alert/VOW.svg', bgAlertColor: '#FA0000' }],
+  ['WSW', { iconPath: 'icons/alert/WSW.svg', bgAlertColor: '#FA0000' }],
+  ['AVA', { iconPath: 'icons/alert/AVA.svg', bgAlertColor: '#F97301' }],
+  ['CFA', { iconPath: 'icons/alert/CFA.svg', bgAlertColor: '#F97301' }],
+  ['FFA', { iconPath: 'icons/alert/CFA.svg', bgAlertColor: '#F97301' }],
+  ['FLA', { iconPath: 'icons/alert/CFA.svg', bgAlertColor: '#F97301' }],
+  ['HUA', { iconPath: 'icons/alert/TRA.svg', bgAlertColor: '#F97301' }],
+  ['HWA', { iconPath: 'icons/alert/HWA.svg', bgAlertColor: '#F97301' }],
+  ['SSA', { iconPath: 'icons/alert/SSA.svg', bgAlertColor: '#F97301' }],
+  ['SVA', { iconPath: 'icons/alert/SVA.svg', bgAlertColor: '#F97301' }],
+  ['TOA', { iconPath: 'icons/alert/TOA.svg', bgAlertColor: '#F97301' }],
+  ['TRA', { iconPath: 'icons/alert/TRA.svg', bgAlertColor: '#F97301' }],
+  ['TSA', { iconPath: 'icons/alert/TSA.svg', bgAlertColor: '#F97301' }],
+  ['WSA', { iconPath: 'icons/alert/WSA.svg', bgAlertColor: '#F97301' }],
+  ['ADR', { iconPath: 'icons/alert/ADR.svg', bgAlertColor: '#41BCD9' }],
+  ['DMO', { iconPath: 'icons/alert/DMO.svg', bgAlertColor: '#41BCD9' }],
+  ['FFS', { iconPath: 'icons/alert/FFS.svg', bgAlertColor: '#41BCD9' }],
+  ['FLS', { iconPath: 'icons/alert/FFS.svg', bgAlertColor: '#41BCD9' }],
+  ['HLS', { iconPath: 'icons/alert/HLS.svg', bgAlertColor: '#41BCD9' }],
+  ['NIC', { iconPath: 'icons/alert/ADR.svg', bgAlertColor: '#41BCD9' }],
+  ['NMN', { iconPath: 'icons/alert/ADR.svg', bgAlertColor: '#41BCD9' }],
+  ['NPT', { iconPath: 'icons/alert/DMO.svg', bgAlertColor: '#41BCD9' }],
+  ['RMT', { iconPath: 'icons/alert/DMO.svg', bgAlertColor: '#41BCD9' }],
+  ['RWT', { iconPath: 'icons/alert/DMO.svg', bgAlertColor: '#41BCD9' }],
+  ['SPS', { iconPath: 'icons/alert/SPS.svg', bgAlertColor: '#41BCD9' }],
+  ['SVS', { iconPath: 'icons/alert/SVS.svg', bgAlertColor: '#41BCD9' }],
+  ['BHW', { iconPath: 'icons/alert/exclamation-red.svg', bgAlertColor: '#FA0000' }],
+  ['BNF', { iconPath: 'icons/alert/exclamation-red.svg', bgAlertColor: '#FA0000' }],
+  ['BWW', { iconPath: 'icons/alert/exclamation-red.svg', bgAlertColor: '#FA0000' }],
+  ['CHW', { iconPath: 'icons/alert/exclamation-red.svg', bgAlertColor: '#FA0000' }],
+  ['CWW', { iconPath: 'icons/alert/exclamation-red.svg', bgAlertColor: '#FA0000' }],
+  ['DBW', { iconPath: 'icons/alert/exclamation-red.svg', bgAlertColor: '#FA0000' }],
+  ['DEW', { iconPath: 'icons/alert/exclamation-red.svg', bgAlertColor: '#FA0000' }],
+  ['FRM', { iconPath: 'icons/alert/exclamation-red.svg', bgAlertColor: '#FA0000' }],
+  ['IBW', { iconPath: 'icons/alert/exclamation-red.svg', bgAlertColor: '#FA0000' }],
+  ['IFW', { iconPath: 'icons/alert/exclamation-red.svg', bgAlertColor: '#FA0000' }],
+  ['LSW', { iconPath: 'icons/alert/exclamation-red.svg', bgAlertColor: '#FA0000' }],
+  ['SIL', { iconPath: 'icons/alert/exclamation-red.svg', bgAlertColor: '#FA0000' }],
+  ['WFW', { iconPath: 'icons/alert/exclamation-red.svg', bgAlertColor: '#FA0000' }],
+  ['FCW', { iconPath: 'icons/alert/exclamation-red.svg', bgAlertColor: '#FA0000' }],
+  ['POS', { iconPath: 'icons/alert/exclamation-orange.svg', bgAlertColor: '#F97301' }],
+  ['BNA', { iconPath: 'icons/alert/exclamation-orange.svg', bgAlertColor: '#F97301' }],
+  ['DBA', { iconPath: 'icons/alert/exclamation-orange.svg', bgAlertColor: '#F97301' }],
+  ['EVA', { iconPath: 'icons/alert/exclamation-orange.svg', bgAlertColor: '#F97301' }],
+  ['WFA', { iconPath: 'icons/alert/exclamation-orange.svg', bgAlertColor: '#F97301' }],
+  ['HBT', { iconPath: 'icons/alert/exclamation-blue.svg', bgAlertColor: '#41BCD9' }],
+];
+
+const map = new Map<string, Item>(items);
+
+const defaultObj: Item = { iconPath: 'icons/alert/exclamation-orange.svg', bgAlertColor: '#F97301' };
+
+const getAlertNotificationBgColor = (eventCode: string) => map.get(eventCode)?.bgAlertColor || defaultObj.bgAlertColor;
+
+const getAlertNotificationIconPath = (eventCode: string) => map.get(eventCode)?.iconPath || defaultObj.iconPath;
+
+export { getAlertNotificationBgColor, getAlertNotificationIconPath };

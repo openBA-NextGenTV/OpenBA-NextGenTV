@@ -1,0 +1,30 @@
+{
+  "menu": {
+    "alerts": "Alerts",
+    "xt": "XT",
+    "radio": "Radio",
+    "seattleRadio": "Seattle Radio",
+    "weather": "Weather",
+    "topStories": "Top Stories",
+    "localNews": "Local News",
+    "nationWorld": "Nation & World",
+    "sports": "Sports",
+    "entertainment": "Entertainment",
+    "watch_now": "Watch Now",
+    "settings": "Settings",
+    "privacyPolicy": "Privacy Policy",
+    "fips": "FIPS Code",
+    "priority": {
+      "title": "Priority",
+      "items": {
+        "emergencyOnly": "Emergency Only",
+        "high": "High",
+        "medium": "Medium (recommended)",
+        "low": "Low",
+        "diagnostic": "Diagnostic Alerts (not recommended)",
+        "noAlerts": "No Alerts"
+      }
+    },
+    "systemInfo": "System Info"
+  }
+}
