@@ -6,6 +6,10 @@
 
 #### yarn start
 
+### Start the tests
+
+#### yarn test
+
 ### Configuring the BA
 
 You able to control main aspects of the BA via appConfig.json:
