@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 
-export * from './useFips';
+export * from './useZip';
 export * from './useAlerts';
 export * from './useFlashChannels';
 export * from './useMenus';

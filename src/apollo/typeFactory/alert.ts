@@ -15,6 +15,7 @@
  * limitations under the License.
  */
 
+import { getAlertBgColor, getAlertIconPath } from '../alerts/alertProps';
 import { Alert, Page } from '../generated/graphql';
 import { addType } from './utils';
 
@@ -28,6 +29,8 @@ export const createAlert = (alert: Alert) => {
     priority: alert.priority,
     targets: alert.targets,
     eventCode: alert.eventCode,
+    iconPath: getAlertIconPath(alert.eventCode),
+    bgColor: getAlertBgColor(alert.eventCode),
     pages: alert.pages.map(page => createPage(page)),
   };
 

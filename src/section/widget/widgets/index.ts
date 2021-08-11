@@ -16,7 +16,7 @@
  */
 
 export * from './systemInfo';
-export * from './fips';
+export * from './zip';
 export * from './rmpPlaceholder';
 export * from './privacyPolicy';
 export * from './alert';

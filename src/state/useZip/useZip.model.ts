@@ -15,21 +15,14 @@
  * limitations under the License.
  */
 
-import { TypePolicy } from '@apollo/client';
+import { useGetAppConfigQuery, useZipQuery } from '../../apollo/generated/graphql';
 
-import { FIPS } from '../localStoreKeys';
+export const useZipModel = () => {
+  const { data: zipData } = useZipQuery();
+  const zip: string = zipData?.zip || '';
+  const { data: appConfigData } = useGetAppConfigQuery();
+  const fipsMap = appConfigData?.appConfig.dmaConfig.zipToFipsMap || [];
+  const fips = zip === '' ? '' : fipsMap.find(element => element?.id === zip)?.fips || null;
 
-export const fipsFieldPolicy = (): TypePolicy['fields'] => ({
-  fips: {
-    read() {
-      return getFIPSFromLocalStorage();
-    },
-    merge(_, incoming) {
-      setFIPSToLocalStorage(incoming);
-      return incoming;
-    },
-  },
-});
-
-const getFIPSFromLocalStorage = () => localStorage.getItem(FIPS);
-const setFIPSToLocalStorage = (fips: string) => localStorage.setItem(FIPS, fips);
+  return { zip, fips };
+};

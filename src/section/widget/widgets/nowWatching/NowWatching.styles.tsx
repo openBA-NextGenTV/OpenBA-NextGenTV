@@ -24,10 +24,18 @@ export const Container = styled.div`
   background: black;
   color: white;
   width: 100%;
-  height: 70px;
+  height: 60px;
+  min-height: 60px;
+  max-height: 60px;
   align-items: center;
   justify-content: center;
   padding: 5px;
+
+  @media (max-width: ${breakpoints.desktop}px) {
+    height: 40px;
+    min-height: 40px;
+    max-height: 40px;
+  }
 `;
 
 export const Logo = styled.img`

@@ -44,6 +44,7 @@ export const Icon = styled.div<{ iconPath: string }>`
   height: 100%;
   position: absolute;
   left: 10px;
+  top: 0;
 
   @media (max-width: ${breakpoints.desktop}px) {
     width: 30px;
@@ -51,26 +52,10 @@ export const Icon = styled.div<{ iconPath: string }>`
   }
 `;
 
-export const Text = styled.p<{ duration?: number }>`
-  display: inline-block;
+export const Text = styled.div`
   font-size: 48px;
-  margin: 6px 20px 6px 0;
-  animation-name: scroll;
-  animation-iteration-count: infinite;
-  animation-timing-function: linear;
-  animation-duration: ${({ duration }) => duration}s;
-
-  @keyframes scroll {
-    0% {
-      transform: translateX(0);
-    }
-    15% {
-      transform: translateX(0);
-    }
-    100% {
-      transform: translateX(-100%);
-    }
-  }
+  white-space: pre;
+  margin: 6px 0;
 
   @media (max-width: ${breakpoints.desktop}px) {
     font-size: 20px;
@@ -119,24 +104,5 @@ export const Button = styled.button<{ selected?: boolean }>`
     padding: 3px 6px;
     border: 2px solid #ffffff;
     border-radius: 8px;
-  }
-`;
-
-export const Live = styled.div`
-  width: 52px;
-  position: absolute;
-  top: 23px;
-  left: 14px;
-  padding: 2px 0;
-  text-align: center;
-  font-size: 18px;
-  font-weight: bold;
-  background-color: #d10d26;
-  border-radius: 2px;
-  @media (max-width: ${breakpoints.desktop}px) {
-    width: 30px;
-    font-size: 10px;
-    top: 11px;
-    left: 5px;
   }
 `;

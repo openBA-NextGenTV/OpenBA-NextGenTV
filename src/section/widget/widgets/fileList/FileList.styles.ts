@@ -59,7 +59,7 @@ export const Header = styled.div`
 `;
 
 export const Name = styled.div`
-  width: 60%;
+  width: 80%;
   padding: 10px;
   color: white;
   word-break: break-word;
@@ -70,12 +70,7 @@ export const Name = styled.div`
   }
 `;
 
-export const Size = styled(Name)`
-  width: 20%;
-  text-align: center;
-`;
-
-export const Date = styled(Name)`
+export const Status = styled(Name)`
   width: 20%;
   text-align: center;
 `;

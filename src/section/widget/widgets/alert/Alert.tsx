@@ -33,7 +33,7 @@ export const Alert: FC<WidgetComponentProps> = ({ widget: { payload } }) => {
     <Container>
       <SideMenu pages={pages} onPageClick={pageClickHandler} />
 
-      <AlertBody page={selectedPage} alertTitle={alert.menuTitle} />
+      <AlertBody alert={alert} page={selectedPage} />
     </Container>
   );
 };

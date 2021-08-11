@@ -22,6 +22,6 @@ export const initPriorityStore = () => {
   const priority = getPriorityFromLocalStorage();
 
   if (!priority) {
-    setPriorityToLocalStorage(Priority.Medium);
+    setPriorityToLocalStorage(Priority.High);
   }
 };

@@ -3,9 +3,11 @@
     "alerts": "Alerts",
     "xt": "XT",
     "radio": "Radio",
-    "seattleRadio": "Seattle Radio",
+    "local_radio": "Local Radio",
+    "stingrayRadio": "Stingray Radio",
     "weather": "Weather",
     "topStories": "Top Stories",
+    "newsOnDemand": "News On Demand",
     "localNews": "Local News",
     "nationWorld": "Nation & World",
     "sports": "Sports",
@@ -13,16 +15,16 @@
     "watch_now": "Watch Now",
     "settings": "Settings",
     "privacyPolicy": "Privacy Policy",
-    "fips": "FIPS Code",
+    "zip": "Zip Code",
     "priority": {
-      "title": "Priority",
+      "title": "Emergency Information Sensitivity",
       "items": {
-        "emergencyOnly": "Emergency Only",
-        "high": "High",
-        "medium": "Medium (recommended)",
-        "low": "Low",
-        "diagnostic": "Diagnostic Alerts (not recommended)",
-        "noAlerts": "No Alerts"
+        "noAlerts": "Alerts Off",
+        "emergencyOnly": "Alerts for Extreme Danger Only",
+        "high": "Alerts for Critical and Extreme Danger (includes weather warnings)",
+        "medium": "Alerts for Important, Critical and Extreme Danger (includes weather watches)",
+        "low": "All Alerts",
+        "diagnostic": "All Messages and Alerts (Diagnostic Mode, includes tests)"
       }
     },
     "systemInfo": "System Info"

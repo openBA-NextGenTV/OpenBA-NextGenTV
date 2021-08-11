@@ -24,6 +24,8 @@ export type Alert = {
   targets: Array<Scalars['String']>;
   pages: Array<Page>;
   eventCode: Scalars['String'];
+  iconPath: Scalars['String'];
+  bgColor: Scalars['String'];
 };
 
 export type AppConfig = {
@@ -33,6 +35,7 @@ export type AppConfig = {
   featureFlags: FeatureFlags;
   theme: Theme;
   privacyPolicy: Scalars['String'];
+  dmaConfig: DmaConfig;
 };
 
 export type CtaTheme = {
@@ -60,12 +63,18 @@ export enum DeviceMake {
   Default = 'DEFAULT'
 }
 
+export type DmaConfig = {
+  id: Scalars['ID'];
+  zipToFipsMap: Array<Maybe<ZipToFips>>;
+};
+
 export type Endpoints = {
   id: Scalars['ID'];
   latestweathercastUrl?: Maybe<Scalars['String']>;
   sevenDayForecastUrl?: Maybe<Scalars['String']>;
   feedProviderUrl?: Maybe<Scalars['String']>;
   flashChannelUrl?: Maybe<Scalars['String']>;
+  newsOnDemandUrl?: Maybe<Scalars['String']>;
 };
 
 export type FeatureFlags = {
@@ -116,6 +125,7 @@ export type MenuTheme = {
   backgroundColor: Scalars['String'];
   borderColor: Scalars['String'];
   selectedItemColor: Scalars['String'];
+  disabledItemColor: Scalars['String'];
 };
 
 export type Metric = {
@@ -127,9 +137,11 @@ export type Mutation = {
   hideAlert?: Maybe<Alert>;
   hideFlashChannel?: Maybe<FlashChannel>;
   updatePriority?: Maybe<Priority>;
-  updateFips?: Maybe<Scalars['String']>;
+  updateZip?: Maybe<Scalars['String']>;
+  setChannelToReturn?: Maybe<Scalars['String']>;
   setWidget?: Maybe<Widget>;
   setMenuIsVisible?: Maybe<Scalars['Boolean']>;
+  setMenuIsDisable?: Maybe<Scalars['Boolean']>;
   selectMenu?: Maybe<Menu>;
   unselectMenu?: Maybe<Menu>;
   unselectMenuItems?: Maybe<Menu>;
@@ -155,8 +167,13 @@ export type MutationUpdatePriorityArgs = {
 };
 
 
-export type MutationUpdateFipsArgs = {
-  fips?: Maybe<Scalars['String']>;
+export type MutationUpdateZipArgs = {
+  zip?: Maybe<Scalars['String']>;
+};
+
+
+export type MutationSetChannelToReturnArgs = {
+  station?: Maybe<Scalars['String']>;
 };
 
 
@@ -167,6 +184,11 @@ export type MutationSetWidgetArgs = {
 
 export type MutationSetMenuIsVisibleArgs = {
   menuIsVisible?: Maybe<Scalars['Boolean']>;
+};
+
+
+export type MutationSetMenuIsDisableArgs = {
+  menuIsDisable?: Maybe<Scalars['Boolean']>;
 };
 
 
@@ -214,7 +236,7 @@ export enum Priority {
  * *\/
  */
 export type Query = {
-  fips: Scalars['String'];
+  zip: Scalars['String'];
   priority: Priority;
   flashChannel: FlashChannel;
   hiddenFlashChannel: Scalars['String'];
@@ -222,9 +244,11 @@ export type Query = {
   hiddenAlert: Scalars['Int'];
   menu: Menu;
   menuIsVisible: Scalars['Boolean'];
+  menuIsDisable: Scalars['Boolean'];
   widget?: Maybe<Widget>;
   deviceInfo: DeviceInfo;
   appConfig: AppConfig;
+  stationIdToReturn: Scalars['String'];
 };
 
 export type Theme = {
@@ -245,11 +269,16 @@ export type WidgetInput = {
   payload?: Maybe<Scalars['String']>;
 };
 
+export type ZipToFips = {
+  id: Scalars['ID'];
+  fips: Scalars['String'];
+};
+
 export type GetAlertsQueryVariables = Exact<{ [key: string]: never; }>;
 
 
 export type GetAlertsQuery = { alerts: Array<(
-    Pick<Alert, 'id' | 'alertBarTitle' | 'menuTitle' | 'expire' | 'latestPublishTime' | 'priority' | 'targets' | 'eventCode'>
+    Pick<Alert, 'id' | 'alertBarTitle' | 'menuTitle' | 'expire' | 'latestPublishTime' | 'priority' | 'targets' | 'eventCode' | 'iconPath' | 'bgColor'>
     & { pages: Array<Pick<Page, 'id' | 'title' | 'story' | 'imageUrl'>> }
   )> };
 
@@ -270,25 +299,13 @@ export type GetAppConfigQueryVariables = Exact<{ [key: string]: never; }>;
 
 export type GetAppConfigQuery = { appConfig: (
     Pick<AppConfig, 'googleAnalyticAccount' | 'privacyPolicy'>
-    & { endpoints: Pick<Endpoints, 'latestweathercastUrl' | 'sevenDayForecastUrl' | 'feedProviderUrl' | 'flashChannelUrl'>, featureFlags: Pick<FeatureFlags, 'menuItemsDisabled' | 'preferAEATMessages' | 'disableAlerts' | 'flashChannelEnabled'>, theme: { menu: Pick<MenuTheme, 'backgroundColor' | 'borderColor' | 'selectedItemColor'>, cta: Pick<CtaTheme, 'activeButtonColor' | 'passiveButtonColor' | 'borderColor' | 'backgroundColor' | 'textColor'> } }
+    & { endpoints: Pick<Endpoints, 'latestweathercastUrl' | 'sevenDayForecastUrl' | 'feedProviderUrl' | 'flashChannelUrl' | 'newsOnDemandUrl'>, featureFlags: Pick<FeatureFlags, 'menuItemsDisabled' | 'preferAEATMessages' | 'disableAlerts' | 'flashChannelEnabled'>, theme: { menu: Pick<MenuTheme, 'backgroundColor' | 'borderColor' | 'selectedItemColor' | 'disabledItemColor'>, cta: Pick<CtaTheme, 'activeButtonColor' | 'passiveButtonColor' | 'borderColor' | 'backgroundColor' | 'textColor'> }, dmaConfig: { zipToFipsMap: Array<Maybe<Pick<ZipToFips, 'id' | 'fips'>>> } }
   ) };
 
 export type GetDeviceInfoQueryVariables = Exact<{ [key: string]: never; }>;
 
 
 export type GetDeviceInfoQuery = { deviceInfo: Pick<DeviceInfo, 'id' | 'deviceId' | 'serviceId' | 'station' | 'isInternetConnected' | 'buildVersion' | 'appVersion' | 'deviceMake'> };
-
-export type GetFipsQueryVariables = Exact<{ [key: string]: never; }>;
-
-
-export type GetFipsQuery = Pick<Query, 'fips'>;
-
-export type UpdateFipsMutationVariables = Exact<{
-  fips?: Maybe<Scalars['String']>;
-}>;
-
-
-export type UpdateFipsMutation = Pick<Mutation, 'updateFips'>;
 
 export type GetFlashChannelQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -318,6 +335,18 @@ export type GetMenuIsVisibleQueryVariables = Exact<{ [key: string]: never; }>;
 
 
 export type GetMenuIsVisibleQuery = Pick<Query, 'menuIsVisible'>;
+
+export type SetMenuIsDisableMutationVariables = Exact<{
+  menuIsDisable?: Maybe<Scalars['Boolean']>;
+}>;
+
+
+export type SetMenuIsDisableMutation = Pick<Mutation, 'setMenuIsDisable'>;
+
+export type GetMenuIsDisableQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type GetMenuIsDisableQuery = Pick<Query, 'menuIsDisable'>;
 
 export type GetMenuQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -387,6 +416,18 @@ export type SelectMenuChildMutationVariables = Exact<{ [key: string]: never; }>;
 
 export type SelectMenuChildMutation = { selectMenuChild?: Maybe<{ __typename: 'Menu' }> };
 
+export type GetOtaRadioQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type GetOtaRadioQuery = Pick<Query, 'stationIdToReturn'>;
+
+export type SetStationMutationVariables = Exact<{
+  station: Scalars['String'];
+}>;
+
+
+export type SetStationMutation = Pick<Mutation, 'setChannelToReturn'>;
+
 export type GetPriorityQueryVariables = Exact<{ [key: string]: never; }>;
 
 
@@ -422,6 +463,18 @@ export type SetWidgetMutationVariables = Exact<{
 
 export type SetWidgetMutation = { setWidget?: Maybe<{ __typename: 'Widget' }> };
 
+export type ZipQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type ZipQuery = Pick<Query, 'zip'>;
+
+export type UpdateZipMutationVariables = Exact<{
+  zip?: Maybe<Scalars['String']>;
+}>;
+
+
+export type UpdateZipMutation = Pick<Mutation, 'updateZip'>;
+
 
 export const GetAlertsDocument = gql`
     query getAlerts {
@@ -434,6 +487,8 @@ export const GetAlertsDocument = gql`
     priority
     targets
     eventCode
+    iconPath
+    bgColor
     pages {
       id
       title
@@ -544,6 +599,7 @@ export const GetAppConfigDocument = gql`
       sevenDayForecastUrl
       feedProviderUrl
       flashChannelUrl
+      newsOnDemandUrl
     }
     featureFlags {
       menuItemsDisabled
@@ -556,6 +612,7 @@ export const GetAppConfigDocument = gql`
         backgroundColor
         borderColor
         selectedItemColor
+        disabledItemColor
       }
       cta {
         activeButtonColor
@@ -566,6 +623,12 @@ export const GetAppConfigDocument = gql`
       }
     }
     privacyPolicy
+    dmaConfig {
+      zipToFipsMap {
+        id
+        fips
+      }
+    }
   }
 }
     `;
@@ -637,69 +700,6 @@ export function useGetDeviceInfoLazyQuery(baseOptions?: Apollo.LazyQueryHookOpti
 export type GetDeviceInfoQueryHookResult = ReturnType<typeof useGetDeviceInfoQuery>;
 export type GetDeviceInfoLazyQueryHookResult = ReturnType<typeof useGetDeviceInfoLazyQuery>;
 export type GetDeviceInfoQueryResult = Apollo.QueryResult<GetDeviceInfoQuery, GetDeviceInfoQueryVariables>;
-export const GetFipsDocument = gql`
-    query getFips {
-  fips @client
-}
-    `;
-
-/**
- * __useGetFipsQuery__
- *
- * To run a query within a React component, call `useGetFipsQuery` and pass it any options that fit your needs.
- * When your component renders, `useGetFipsQuery` returns an object from Apollo Client that contains loading, error, and data properties
- * you can use to render your UI.
- *
- * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
- *
- * @example
- * const { data, loading, error } = useGetFipsQuery({
- *   variables: {
- *   },
- * });
- */
-export function useGetFipsQuery(baseOptions?: Apollo.QueryHookOptions<GetFipsQuery, GetFipsQueryVariables>) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useQuery<GetFipsQuery, GetFipsQueryVariables>(GetFipsDocument, options);
-      }
-export function useGetFipsLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetFipsQuery, GetFipsQueryVariables>) {
-          const options = {...defaultOptions, ...baseOptions}
-          return Apollo.useLazyQuery<GetFipsQuery, GetFipsQueryVariables>(GetFipsDocument, options);
-        }
-export type GetFipsQueryHookResult = ReturnType<typeof useGetFipsQuery>;
-export type GetFipsLazyQueryHookResult = ReturnType<typeof useGetFipsLazyQuery>;
-export type GetFipsQueryResult = Apollo.QueryResult<GetFipsQuery, GetFipsQueryVariables>;
-export const UpdateFipsDocument = gql`
-    mutation updateFips($fips: String) {
-  updateFips(fips: $fips) @client
-}
-    `;
-export type UpdateFipsMutationFn = Apollo.MutationFunction<UpdateFipsMutation, UpdateFipsMutationVariables>;
-
-/**
- * __useUpdateFipsMutation__
- *
- * To run a mutation, you first call `useUpdateFipsMutation` within a React component and pass it any options that fit your needs.
- * When your component renders, `useUpdateFipsMutation` returns a tuple that includes:
- * - A mutate function that you can call at any time to execute the mutation
- * - An object with fields that represent the current status of the mutation's execution
- *
- * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
- *
- * @example
- * const [updateFipsMutation, { data, loading, error }] = useUpdateFipsMutation({
- *   variables: {
- *      fips: // value for 'fips'
- *   },
- * });
- */
-export function useUpdateFipsMutation(baseOptions?: Apollo.MutationHookOptions<UpdateFipsMutation, UpdateFipsMutationVariables>) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useMutation<UpdateFipsMutation, UpdateFipsMutationVariables>(UpdateFipsDocument, options);
-      }
-export type UpdateFipsMutationHookResult = ReturnType<typeof useUpdateFipsMutation>;
-export type UpdateFipsMutationResult = Apollo.MutationResult<UpdateFipsMutation>;
-export type UpdateFipsMutationOptions = Apollo.BaseMutationOptions<UpdateFipsMutation, UpdateFipsMutationVariables>;
 export const GetFlashChannelDocument = gql`
     query getFlashChannel {
   flashChannel @client {
@@ -868,6 +868,69 @@ export function useGetMenuIsVisibleLazyQuery(baseOptions?: Apollo.LazyQueryHookO
 export type GetMenuIsVisibleQueryHookResult = ReturnType<typeof useGetMenuIsVisibleQuery>;
 export type GetMenuIsVisibleLazyQueryHookResult = ReturnType<typeof useGetMenuIsVisibleLazyQuery>;
 export type GetMenuIsVisibleQueryResult = Apollo.QueryResult<GetMenuIsVisibleQuery, GetMenuIsVisibleQueryVariables>;
+export const SetMenuIsDisableDocument = gql`
+    mutation setMenuIsDisable($menuIsDisable: Boolean) {
+  setMenuIsDisable(menuIsDisable: $menuIsDisable) @client
+}
+    `;
+export type SetMenuIsDisableMutationFn = Apollo.MutationFunction<SetMenuIsDisableMutation, SetMenuIsDisableMutationVariables>;
+
+/**
+ * __useSetMenuIsDisableMutation__
+ *
+ * To run a mutation, you first call `useSetMenuIsDisableMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useSetMenuIsDisableMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [setMenuIsDisableMutation, { data, loading, error }] = useSetMenuIsDisableMutation({
+ *   variables: {
+ *      menuIsDisable: // value for 'menuIsDisable'
+ *   },
+ * });
+ */
+export function useSetMenuIsDisableMutation(baseOptions?: Apollo.MutationHookOptions<SetMenuIsDisableMutation, SetMenuIsDisableMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<SetMenuIsDisableMutation, SetMenuIsDisableMutationVariables>(SetMenuIsDisableDocument, options);
+      }
+export type SetMenuIsDisableMutationHookResult = ReturnType<typeof useSetMenuIsDisableMutation>;
+export type SetMenuIsDisableMutationResult = Apollo.MutationResult<SetMenuIsDisableMutation>;
+export type SetMenuIsDisableMutationOptions = Apollo.BaseMutationOptions<SetMenuIsDisableMutation, SetMenuIsDisableMutationVariables>;
+export const GetMenuIsDisableDocument = gql`
+    query getMenuIsDisable {
+  menuIsDisable @client
+}
+    `;
+
+/**
+ * __useGetMenuIsDisableQuery__
+ *
+ * To run a query within a React component, call `useGetMenuIsDisableQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetMenuIsDisableQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetMenuIsDisableQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useGetMenuIsDisableQuery(baseOptions?: Apollo.QueryHookOptions<GetMenuIsDisableQuery, GetMenuIsDisableQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<GetMenuIsDisableQuery, GetMenuIsDisableQueryVariables>(GetMenuIsDisableDocument, options);
+      }
+export function useGetMenuIsDisableLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetMenuIsDisableQuery, GetMenuIsDisableQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<GetMenuIsDisableQuery, GetMenuIsDisableQueryVariables>(GetMenuIsDisableDocument, options);
+        }
+export type GetMenuIsDisableQueryHookResult = ReturnType<typeof useGetMenuIsDisableQuery>;
+export type GetMenuIsDisableLazyQueryHookResult = ReturnType<typeof useGetMenuIsDisableLazyQuery>;
+export type GetMenuIsDisableQueryResult = Apollo.QueryResult<GetMenuIsDisableQuery, GetMenuIsDisableQueryVariables>;
 export const GetMenuDocument = gql`
     query getMenu {
   menu @client {
@@ -1214,6 +1277,69 @@ export function useSelectMenuChildMutation(baseOptions?: Apollo.MutationHookOpti
 export type SelectMenuChildMutationHookResult = ReturnType<typeof useSelectMenuChildMutation>;
 export type SelectMenuChildMutationResult = Apollo.MutationResult<SelectMenuChildMutation>;
 export type SelectMenuChildMutationOptions = Apollo.BaseMutationOptions<SelectMenuChildMutation, SelectMenuChildMutationVariables>;
+export const GetOtaRadioDocument = gql`
+    query getOtaRadio {
+  stationIdToReturn @client
+}
+    `;
+
+/**
+ * __useGetOtaRadioQuery__
+ *
+ * To run a query within a React component, call `useGetOtaRadioQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetOtaRadioQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetOtaRadioQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useGetOtaRadioQuery(baseOptions?: Apollo.QueryHookOptions<GetOtaRadioQuery, GetOtaRadioQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<GetOtaRadioQuery, GetOtaRadioQueryVariables>(GetOtaRadioDocument, options);
+      }
+export function useGetOtaRadioLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetOtaRadioQuery, GetOtaRadioQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<GetOtaRadioQuery, GetOtaRadioQueryVariables>(GetOtaRadioDocument, options);
+        }
+export type GetOtaRadioQueryHookResult = ReturnType<typeof useGetOtaRadioQuery>;
+export type GetOtaRadioLazyQueryHookResult = ReturnType<typeof useGetOtaRadioLazyQuery>;
+export type GetOtaRadioQueryResult = Apollo.QueryResult<GetOtaRadioQuery, GetOtaRadioQueryVariables>;
+export const SetStationDocument = gql`
+    mutation setStation($station: String!) {
+  setChannelToReturn(station: $station) @client
+}
+    `;
+export type SetStationMutationFn = Apollo.MutationFunction<SetStationMutation, SetStationMutationVariables>;
+
+/**
+ * __useSetStationMutation__
+ *
+ * To run a mutation, you first call `useSetStationMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useSetStationMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [setStationMutation, { data, loading, error }] = useSetStationMutation({
+ *   variables: {
+ *      station: // value for 'station'
+ *   },
+ * });
+ */
+export function useSetStationMutation(baseOptions?: Apollo.MutationHookOptions<SetStationMutation, SetStationMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<SetStationMutation, SetStationMutationVariables>(SetStationDocument, options);
+      }
+export type SetStationMutationHookResult = ReturnType<typeof useSetStationMutation>;
+export type SetStationMutationResult = Apollo.MutationResult<SetStationMutation>;
+export type SetStationMutationOptions = Apollo.BaseMutationOptions<SetStationMutation, SetStationMutationVariables>;
 export const GetPriorityDocument = gql`
     query getPriority {
   priority @client
@@ -1386,3 +1512,66 @@ export function useSetWidgetMutation(baseOptions?: Apollo.MutationHookOptions<Se
 export type SetWidgetMutationHookResult = ReturnType<typeof useSetWidgetMutation>;
 export type SetWidgetMutationResult = Apollo.MutationResult<SetWidgetMutation>;
 export type SetWidgetMutationOptions = Apollo.BaseMutationOptions<SetWidgetMutation, SetWidgetMutationVariables>;
+export const ZipDocument = gql`
+    query zip {
+  zip @client
+}
+    `;
+
+/**
+ * __useZipQuery__
+ *
+ * To run a query within a React component, call `useZipQuery` and pass it any options that fit your needs.
+ * When your component renders, `useZipQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useZipQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useZipQuery(baseOptions?: Apollo.QueryHookOptions<ZipQuery, ZipQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<ZipQuery, ZipQueryVariables>(ZipDocument, options);
+      }
+export function useZipLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<ZipQuery, ZipQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<ZipQuery, ZipQueryVariables>(ZipDocument, options);
+        }
+export type ZipQueryHookResult = ReturnType<typeof useZipQuery>;
+export type ZipLazyQueryHookResult = ReturnType<typeof useZipLazyQuery>;
+export type ZipQueryResult = Apollo.QueryResult<ZipQuery, ZipQueryVariables>;
+export const UpdateZipDocument = gql`
+    mutation updateZip($zip: String) {
+  updateZip(zip: $zip) @client
+}
+    `;
+export type UpdateZipMutationFn = Apollo.MutationFunction<UpdateZipMutation, UpdateZipMutationVariables>;
+
+/**
+ * __useUpdateZipMutation__
+ *
+ * To run a mutation, you first call `useUpdateZipMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useUpdateZipMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [updateZipMutation, { data, loading, error }] = useUpdateZipMutation({
+ *   variables: {
+ *      zip: // value for 'zip'
+ *   },
+ * });
+ */
+export function useUpdateZipMutation(baseOptions?: Apollo.MutationHookOptions<UpdateZipMutation, UpdateZipMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<UpdateZipMutation, UpdateZipMutationVariables>(UpdateZipDocument, options);
+      }
+export type UpdateZipMutationHookResult = ReturnType<typeof useUpdateZipMutation>;
+export type UpdateZipMutationResult = Apollo.MutationResult<UpdateZipMutation>;
+export type UpdateZipMutationOptions = Apollo.BaseMutationOptions<UpdateZipMutation, UpdateZipMutationVariables>;

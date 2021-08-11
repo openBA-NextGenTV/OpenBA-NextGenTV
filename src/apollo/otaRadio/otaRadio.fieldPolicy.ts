@@ -15,11 +15,17 @@
  * limitations under the License.
  */
 
-import { useGetFipsQuery } from '../../apollo/generated/graphql';
+import { TypePolicy } from '@apollo/client';
 
-export const useFipsModel = () => {
-  const { data } = useGetFipsQuery();
-  const fips: string = data?.fips || '';
+import { STATION_ID_RETURN } from '../localStoreKeys';
 
-  return { fips };
-};
+export const otaRadioPolicy = (): TypePolicy['fields'] => ({
+  stationIdToReturn: {
+    merge(_, incoming) {
+      setStationIdToReturn(incoming);
+      return incoming;
+    },
+  },
+});
+
+export const setStationIdToReturn = (value: string) => localStorage.setItem(STATION_ID_RETURN, value);

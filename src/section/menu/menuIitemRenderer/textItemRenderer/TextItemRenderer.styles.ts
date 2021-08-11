@@ -22,14 +22,15 @@ import { breakpoints } from '../../../../utils';
 
 const TITLE_LENGTH_TO_REDUCE_FONT = 128;
 
-export const Container = styled.button<{ selected: Menu['selected'] }>`
+export const Container = styled.button<{ selected: Menu['selected']; isDisable: boolean }>`
   display: flex;
   flex-direction: column;
   padding: 20px;
   width: 100%;
   color: white;
   border: none;
-  background-color: ${({ selected, theme }) => (selected ? theme.menu.selectedItemColor : 'transparent')};
+  background-color: ${({ isDisable, selected, theme }) =>
+    selected ? (isDisable ? theme.menu.disabledItemColor : theme.menu.selectedItemColor) : 'transparent'};
   cursor: pointer;
   transition: all 0.2s ease-out;
   &:focus {

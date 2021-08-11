@@ -17,6 +17,7 @@
 
 import { getPriorityByNumber } from '../../../../state/useAlerts/alerts.util';
 import { Alert, Page } from '../../../generated/graphql';
+import { getAlertBgColor, getAlertIconPath } from '../../alertProps';
 import { AlertFeed, AlertType } from './loader.types';
 
 export const loader = async (pathToAlert: string): Promise<Alert[]> => {
@@ -90,9 +91,16 @@ const mapAlerts = (alerts: AlertType[], alertFeeds: AlertFeed[], pathToAlert: st
       priority: getPriorityByNumber(priority),
       targets,
       eventCode,
+      iconPath: getAlertIconPath(eventCode),
+      bgColor: getAlertBgColor(eventCode),
       pages:
         alertFeed?.pages.map(feed => {
-          const result: Page = { id: feed.title, title: feed.title, story: feed.story, imageUrl: null };
+          const result: Page = {
+            id: feed.title,
+            title: feed.title,
+            story: feed.story,
+            imageUrl: null,
+          };
 
           if (feed.media.length) {
             result.imageUrl = pathToAlert + feed.media[0].thumbnail.replace('../', '') || null;

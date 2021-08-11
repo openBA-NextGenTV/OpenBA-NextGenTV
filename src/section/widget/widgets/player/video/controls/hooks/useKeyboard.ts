@@ -34,7 +34,7 @@ export const useKeyBoard = (
   const { showMenu } = useMenusOperations();
   const { isHidden, resetHideState } = useAutoHide();
   const [isPanelHidden, setHidePanel] = useState(false);
-  const { isVisible: isMenuVisible } = useMenusModel();
+  const { isVisible: isMenuVisible, isDisable } = useMenusModel();
   const [togglePlayPause] = useTogglePayback(playerRef, paused);
 
   const commandHandler = useCallback(
@@ -78,7 +78,7 @@ export const useKeyBoard = (
   );
 
   useEffect(() => {
-    if (isMenuVisible) {
+    if (isMenuVisible || isDisable) {
       unregisterView({ viewId: VideoControlsViewId });
     } else {
       registerView({
@@ -87,7 +87,7 @@ export const useKeyBoard = (
       });
     }
     return () => unregisterView({ viewId: VideoControlsViewId });
-  }, [isMenuVisible, commandHandler, restoreControl]);
+  }, [isDisable, isMenuVisible, commandHandler, restoreControl]);
 
   return { isHidden, isPanelHidden };
 };

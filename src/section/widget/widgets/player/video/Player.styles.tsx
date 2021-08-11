@@ -29,4 +29,5 @@ export const Player = styled.video`
   width: 100%;
   max-width: 100%;
   height: auto;
+  max-height: 100%;
 `;

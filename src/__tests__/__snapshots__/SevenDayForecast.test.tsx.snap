@@ -1,0 +1,123 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Render WeatherDay 1`] = `
+<div
+  className="sc-gSYDnn jcVXrT"
+>
+  <div
+    className="sc-laZMeE gZLYRR"
+  >
+    <div
+      className="sc-iNiQyp jXkHnm"
+    >
+      Wednesday
+    </div>
+    <div
+      className="sc-jffHpj fQbldB"
+    >
+      July 14
+    </div>
+  </div>
+  <i
+    className="sc-eJocfa fsxsKJ wi wi-stk-65"
+  >
+    <span
+      className="sc-oeezt"
+    />
+  </i>
+  <div
+    className="sc-hhIiOg glQoIs"
+  >
+    Sunny
+  </div>
+  <div
+    className="sc-eirqVv eIOKgU"
+  >
+    <span
+      className="sc-lbVvki jeWfq"
+    >
+      100
+      °
+    </span>
+    <span
+      className="sc-gGLxEB iJublt"
+    >
+      88
+      °
+    </span>
+  </div>
+  <div
+    className="sc-khIgEk jDxXGL"
+  >
+    <div
+      className="sc-hTRkXV iTIxcm"
+    >
+      Precipitation
+    </div>
+    <div
+      className="sc-jgPyTC boJKKo"
+    >
+      10%
+    </div>
+  </div>
+  <div
+    className="sc-khIgEk jDxXGL"
+  >
+    <div
+      className="sc-hTRkXV iTIxcm"
+    >
+      Wind
+    </div>
+    <div
+      className="sc-jgPyTC boJKKo"
+    >
+      15 mph SSE
+    </div>
+  </div>
+  <div
+    className="sc-khIgEk jDxXGL"
+  >
+    <div
+      className="sc-hTRkXV iTIxcm"
+    >
+      Humidity
+    </div>
+    <div
+      className="sc-jgPyTC boJKKo"
+    >
+      30%
+    </div>
+  </div>
+  <div
+    className="sc-khIgEk jDxXGL"
+  >
+    <div
+      className="sc-hTRkXV iTIxcm"
+    >
+      UV
+    </div>
+    <div
+      className="sc-jgPyTC boJKKo"
+    >
+      Very High
+    </div>
+  </div>
+</div>
+`;
+
+exports[`Render WeatherDay Property 1`] = `
+<div
+  className="sc-khIgEk jDxXGL"
+>
+  <div
+    className="sc-hTRkXV iTIxcm"
+  >
+    Precipitation
+  </div>
+  <div
+    className="sc-jgPyTC boJKKo"
+  >
+    20%
+  </div>
+</div>
+`;

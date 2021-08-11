@@ -18,7 +18,7 @@
 """
 
 type Query {
-    fips: String!
+    zip: String!
     priority: Priority!
     flashChannel: FlashChannel!
     hiddenFlashChannel: String!
@@ -26,18 +26,22 @@ type Query {
     hiddenAlert: Int!
     menu: Menu!
     menuIsVisible: Boolean!
+    menuIsDisable: Boolean!
     widget: Widget
     deviceInfo: DeviceInfo!
     appConfig: AppConfig!
+    stationIdToReturn : String!
 }
 
 type Mutation {
     hideAlert(alert: HideAlertInput!): Alert
     hideFlashChannel(flashChannel: HideFlashChannelInput!): FlashChannel
     updatePriority(priority: Priority!): Priority
-    updateFips(fips: String): String
+    updateZip(zip: String): String
+    setChannelToReturn(station: String): String
     setWidget(widget: WidgetInput): Widget
     setMenuIsVisible(menuIsVisible: Boolean): Boolean
+    setMenuIsDisable(menuIsDisable: Boolean): Boolean
     selectMenu(menuId: ID!): Menu
     unselectMenu(menuId: ID!): Menu
     unselectMenuItems: Menu
@@ -57,6 +61,8 @@ type Alert {
     targets: [String!]!
     pages: [Page!]!
     eventCode: String!
+    iconPath: String!
+    bgColor: String!
 }
 
 type FlashChannel {
@@ -150,6 +156,17 @@ type AppConfig {
     featureFlags: FeatureFlags!
     theme: Theme!
     privacyPolicy: String!
+    dmaConfig: DmaConfig!
+}
+
+type DmaConfig {
+    id: ID!
+    zipToFipsMap: [ZipToFips]!
+}
+
+type ZipToFips {
+  id : ID!
+  fips: String!
 }
 
 type Endpoints {
@@ -158,6 +175,7 @@ type Endpoints {
     sevenDayForecastUrl: String
     feedProviderUrl: String
     flashChannelUrl: String
+    newsOnDemandUrl: String
 }
 
 type FeatureFlags {
@@ -188,4 +206,5 @@ type MenuTheme {
     backgroundColor: String!
     borderColor: String!
     selectedItemColor: String!
+    disabledItemColor: String!
 }

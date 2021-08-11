@@ -17,7 +17,7 @@
 
 import { Alert, Priority } from '../../apollo/generated/graphql';
 
-export const alertFilter = (alert: Alert, fips: string, priority?: Priority | undefined) => {
+export const alertFilter = (alert: Alert, fips: string | null, priority?: Priority | undefined) => {
   if (Date.now() > alert.expire) {
     return false;
   }
@@ -42,14 +42,15 @@ export const alertFilter = (alert: Alert, fips: string, priority?: Priority | un
   return isAcceptableByFips(alert.targets, fips);
 };
 
-const isAcceptableByFips = (targets: string[], fips: string) =>
-  targets.some(target => {
-    if (fips) {
-      return target === 'target:fips:*' || target === `target:fips:${fips}`;
-    } else {
-      return target === 'target:fips:*';
-    }
-  });
+const isAcceptableByFips = (incomingAlertFips: string[], fips: string | null) => {
+  const acceptableFips = ['target:fips:*', 'target:fips:000000'];
+
+  if (fips) {
+    acceptableFips.push(`target:fips:${fips}`);
+  }
+
+  return incomingAlertFips.some(incomingFips => acceptableFips.includes(incomingFips));
+};
 
 export const isUpdatedAlert = (existingAlert: Alert, newAlert: Alert) =>
   existingAlert.id === newAlert.id && existingAlert.latestPublishTime < newAlert.latestPublishTime;

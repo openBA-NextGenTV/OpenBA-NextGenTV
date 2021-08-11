@@ -4,7 +4,8 @@
     "menu": {
       "backgroundColor": "#957314",
       "borderColor": "#5a4ed1",
-      "selectedItemColor": "#cf8919"
+      "selectedItemColor": "#cf8919",
+      "disabledItemColor": "#efefef"
     },
     "cta": {
       "activeButtonColor": "#ab9bce",
@@ -24,7 +25,8 @@
     "latestweathercastUrl": null,
     "sevenDayForecastUrl": null,
     "feedProviderUrl": null,
-    "flashChannelUrl": null
+    "flashChannelUrl": null,
+    "newsOnDemandUrl": null
   },
   "privacyPolicy": "<p>Privacy Policy</p>"
 }

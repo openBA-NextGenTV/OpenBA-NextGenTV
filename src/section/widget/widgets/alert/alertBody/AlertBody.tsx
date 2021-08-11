@@ -17,6 +17,8 @@
 
 import { FC } from 'react';
 
+import { Alert } from '../../../../../apollo/generated/graphql';
+import { Icon } from '../../../../notificationBar/NotificationBar.styles';
 import { PageItemModel } from '../hooks';
 import {
   Container,
@@ -30,11 +32,11 @@ import {
 } from './AlertBody.styles';
 
 type Props = {
+  alert: Alert;
   page?: PageItemModel;
-  alertTitle: string;
 };
 
-export const AlertBody: FC<Props> = ({ page, alertTitle }) => {
+export const AlertBody: FC<Props> = ({ alert, page }) => {
   if (!page) {
     return <></>;
   }
@@ -43,8 +45,9 @@ export const AlertBody: FC<Props> = ({ page, alertTitle }) => {
 
   return (
     <Container>
-      <TitleWrapper>
-        <Title id="alert_details_title">{alertTitle}</Title>
+      <TitleWrapper bgColor={alert.bgColor}>
+        <Icon iconPath={alert.iconPath} />
+        <Title id="alert_details_title">{alert.menuTitle}</Title>
       </TitleWrapper>
 
       <PageTitle id="alert_details_page_title">{page.title}</PageTitle>

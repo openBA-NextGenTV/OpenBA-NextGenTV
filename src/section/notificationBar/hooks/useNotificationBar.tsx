@@ -7,6 +7,7 @@ import {
   useFlashChannelModel,
   useFlashChannelOperations,
   useMenusModel,
+  useMenusOperations,
   useWidgetModel,
 } from '../../../state';
 import { NotificationProps } from '../Notification';
@@ -25,36 +26,37 @@ export const useNotificationBar = () => {
   const { isVisible } = useMenusModel();
   const { widget } = useWidgetModel();
 
+  const { disableMenu, enableMenu } = useMenusOperations();
+
   const hideEndFlashChannel = () => {
     setIsHiddenEndFlashChannelBar(true);
     setNotificationProps(null);
   };
 
   useEffect(() => {
-    if (isVisible || widget) {
-      setNotificationProps(null);
-      return;
-    }
-
     if (flashChannel?.isLive) {
       const flashChannelProps = getFlashChannelProps(flashChannel, hideFlashChannel, gotoChannel);
       setIsHiddenEndFlashChannelBar(false);
       setNotificationProps(flashChannelProps);
+      disableMenu();
       return;
     }
 
     if (flashChannel && flashChannel?.expireTime && !isHiddenEndFlashChannelBar) {
       const endFlashChannelProps = getFlashChannelEndProps(hideEndFlashChannel, station, flashChannel.title);
       setNotificationProps(endFlashChannelProps);
+      disableMenu();
       return;
     }
 
     if (alert) {
       const alertProps = getAlertProps(alert, hideAlert, showMore);
       setNotificationProps(alertProps);
+      disableMenu();
       return;
     }
 
+    enableMenu();
     setNotificationProps(null);
   }, [
     isVisible,
@@ -67,6 +69,8 @@ export const useNotificationBar = () => {
     hideAlert,
     hideFlashChannel,
     showMore,
+    disableMenu,
+    enableMenu,
   ]);
 
   return {

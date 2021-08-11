@@ -30,6 +30,7 @@ export const useController = (
   items: Item[],
   onSelect: (item: Item) => void,
   direction: 'vertical' | 'horizontal' = 'vertical',
+  isDisable?: boolean,
 ) => {
   const commandListener = useCallback(
     (command: Command) => {
@@ -71,11 +72,14 @@ export const useController = (
 
   useEffect(() => {
     const id = viewId + 'Controller';
-
-    registerView({ viewId: id, listener: commandListener });
+    if (isDisable) {
+      unregisterView({ viewId: id });
+    } else {
+      registerView({ viewId: id, listener: commandListener });
+    }
 
     return () => unregisterView({ viewId: id });
-  }, [viewId, commandListener]);
+  }, [viewId, commandListener, isDisable]);
 };
 
 const getNextItem = (items: Item[]) => {

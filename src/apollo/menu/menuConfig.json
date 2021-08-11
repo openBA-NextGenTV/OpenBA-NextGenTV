@@ -84,12 +84,12 @@
           }
         },
         {
-          "id": "menu_settings_fips",
-          "title": "menu.fips",
+          "id": "menu_settings_zip",
+          "title": "menu.zip",
           "widget": {
-            "type": "fips",
+            "type": "zip",
             "metric": {
-              "page": "FIPS Code",
+              "page": "Zip Code",
               "title": null
             }
           }

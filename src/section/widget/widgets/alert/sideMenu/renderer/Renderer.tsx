@@ -14,30 +14,38 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 import { FC, useEffect, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
 
+import { useMenusModel } from '../../../../../../state';
 import { setFocusedItemToTop } from '../../../../../../utils';
 import { ArrowBack } from '../../../common';
 import { PageItemModel } from '../../hooks';
 import { Container, Title } from './Renderer.styles';
 
-export const WithRendererContainer = (
-  Component: any,
-  onContainerClick: (page: PageItemModel) => void,
-  page: PageItemModel,
-) => {
+type Props = {
+  onContainerClick: (page: PageItemModel) => void;
+  page: PageItemModel;
+};
+
+export const WithRendererContainer: FC<Props> = ({ onContainerClick, page, children }) => {
   const { highlighted } = page;
   const pageRef = useRef(null);
+  const { isDisable } = useMenusModel();
 
   useEffect(() => {
     highlighted && setFocusedItemToTop(pageRef, true);
   }, [pageRef, highlighted]);
 
   return (
-    <Container key={page.title} selected={highlighted} onClick={() => onContainerClick(page)} ref={pageRef}>
-      <Component page={page} />
+    <Container
+      key={page.title}
+      selected={highlighted}
+      onClick={() => onContainerClick(page)}
+      isDisable={isDisable}
+      ref={pageRef}
+    >
+      {children}
     </Container>
   );
 };

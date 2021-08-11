@@ -16,9 +16,10 @@
  */
 
 import { FC, useCallback, useEffect, useRef, useState } from 'react';
+import Ticker from 'react-ticker';
 
 import { Command, Item, registerView, unregisterView, useController } from '../../hooks';
-import { Button, Container, ControlContainer, Text, TextContainer } from './NotificationBar.styles';
+import { Button, Container, ControlContainer, Icon, Text, TextContainer } from './NotificationBar.styles';
 
 const SPEED_TIME_COEFFICIENT = 8;
 const VIEW_ID = 'notificationBar';
@@ -26,11 +27,11 @@ const VIEW_ID = 'notificationBar';
 export type NotificationProps = {
   content: string;
   variant: string;
+  iconPath: string;
   showMoreButtonVisible: boolean;
   showMoreButtonLabel?: string;
   onHideBar: () => void;
   onShowMore?: () => void;
-  renderIcon?: () => void;
 };
 
 export const Notification: FC<NotificationProps> = ({
@@ -40,10 +41,9 @@ export const Notification: FC<NotificationProps> = ({
   showMoreButtonVisible,
   onHideBar,
   onShowMore,
-  renderIcon,
+  iconPath,
 }) => {
   const [buttonItems, setButtonItems] = useState<Item[]>([]);
-  const [duration, setDuration] = useState(0);
 
   const [selectedItem, setSelectedItem] = useState('Hide');
 
@@ -65,16 +65,18 @@ export const Notification: FC<NotificationProps> = ({
     setButtonItems(result);
   }, [selectedItem, showMoreButtonVisible, showMoreButtonLabel]);
 
-  const alertTextRef = useRef<HTMLParagraphElement>(null);
   const alertTextContainerRef = useRef<HTMLDivElement>(null);
+  const alertTextRef = useRef<HTMLParagraphElement>(null);
+  const [moveText, setMoveText] = useState(false);
 
   useEffect(() => {
-    const textWidth = alertTextRef.current?.offsetWidth || 0;
-    const boxWidth = alertTextContainerRef.current?.offsetWidth || 1;
-    const duration = textWidth > boxWidth ? (textWidth / boxWidth) * SPEED_TIME_COEFFICIENT : 0;
+    setTimeout(() => {
+      const textWidth = alertTextRef.current?.offsetWidth || 0;
+      const boxWidth = alertTextContainerRef.current?.scrollWidth || 0;
 
-    setDuration(duration);
-  }, [content, alertTextRef, alertTextContainerRef, setDuration]);
+      setMoveText(textWidth > boxWidth);
+    });
+  }, [alertTextRef, alertTextContainerRef, setMoveText]);
 
   const commandListener = useCallback(
     (command: Command) => {
@@ -123,10 +125,10 @@ export const Notification: FC<NotificationProps> = ({
   return (
     <Container id="alert_bar" variant={variant}>
       <TextContainer ref={alertTextContainerRef}>
-        {renderIcon && renderIcon()}
-        <Text ref={alertTextRef} duration={duration}>
-          {content}
-        </Text>
+        <Icon iconPath={iconPath} />
+        <Ticker key={content} speed={SPEED_TIME_COEFFICIENT} mode={'await'} move={moveText}>
+          {() => <Text ref={alertTextRef}>{content}</Text>}
+        </Ticker>
       </TextContainer>
 
       <ControlContainer id="alert_bar_controls">

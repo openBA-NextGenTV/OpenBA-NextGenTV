@@ -17,28 +17,41 @@
 
 import { useRef } from 'react';
 
-import { useCommandScroll } from '../../../../hooks';
-// import { File } from './file';
-import { Container, Date, Header, Name, ScrollContainer, Size, Title } from './FileList.styles';
+import { DeviceMake } from '../../../../apollo/generated/graphql';
+import { useCommandScroll, useNrtFallbackRequest } from '../../../../hooks';
+import { useDeviceInfoModel } from '../../../../state';
+import { File } from './file';
+import { Container, Header, Name, ScrollContainer, Status, Title } from './FileList.styles';
 
 const VIEW_ID = 'fileList';
+
+const fileListGeneral = [
+  'dynamic/trigger/trigger.json',
+  'dynamic/weather/latest/weather-latest.mp4',
+  'dynamic/weather/7day/weather-7day-${station}.json',
+];
+
+const fileListLg = [
+  '../Alert.pkg/dynamic/trigger/trigger.json',
+  '../weather-7day.pkg/dynamic/weather/latest/weather-latest.mp4',
+  '../weather-7day.pkg/dynamic/weather/7day/weather-7day-${station}.json',
+];
 
 // should be uncommented when it will be implemented on the Platform side
 
 export const FileList = () => {
+  const { station } = useDeviceInfoModel();
+  const { deviceMake } = useDeviceInfoModel();
+
+  const fileList: Array<string> = deviceMake === DeviceMake.Lg ? fileListLg : fileListGeneral;
+
+  const files = fileList.map(file => file.replace('${station}', station));
+
+  const { status } = useNrtFallbackRequest(files);
+
   const fileListRef = useRef<HTMLDivElement>(null);
 
   useCommandScroll(fileListRef, VIEW_ID);
-
-  // const { data: {files}, loading, error } = useNrtFallbackRequest(FILE_LIST_URL, FILE_LIST_URL, 'json', 'json');
-  //
-  // if (loading) {
-  //   return <Styled.ContainerMessage>File list will update in a moment.</Styled.ContainerMessage>;
-  // }
-  //
-  // if (error || !data) {
-  //   return <Styled.ContainerMessage>File list is not available.</Styled.ContainerMessage>;
-  // }
 
   return (
     <Container>
@@ -46,14 +59,13 @@ export const FileList = () => {
 
       <Header>
         <Name>Name</Name>
-        <Size>Size</Size>
-        <Date>Date</Date>
+        <Status>Status</Status>
       </Header>
 
       <ScrollContainer ref={fileListRef}>
-        {/*{files?.map((file: File, index: number) => (*/}
-        {/*  <File key={index} {...file} />*/}
-        {/*))}*/}
+        {status?.map(({ name, status }, index: number) => (
+          <File key={index} name={name} status={status ? 'OK' : 'No file'} />
+        ))}
       </ScrollContainer>
     </Container>
   );

@@ -77,11 +77,13 @@ export const createAlertFromFlashChannel = (flashChannel: FlashChannel) =>
     priority: 'EMERGENCY',
     targets: [],
     eventCode: 'FlashChannel',
+    iconPath: 'icons/alert/Live.svg',
+    bgColor: '#00468d',
     pages: [
       {
         id: flashChannel.channelId,
         imageUrl: '',
-        story: `${flashChannel.title} is currently available. Please choose "Watch now" from the menu to view more information.`,
+        story: `“${flashChannel.title}” is currently available. Please choose "Watch now" from the menu to view more information.`,
         title: 'Watch now available',
       },
     ],

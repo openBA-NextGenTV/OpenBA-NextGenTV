@@ -15,10 +15,11 @@
  * limitations under the License.
  */
 
-import { AppConfig, CtaTheme, Endpoints, FeatureFlags, MenuTheme, Theme } from '../generated/graphql';
+import { DmaAppConfig } from '../appConfig/appConfig.types';
+import { AppConfig, CtaTheme, DmaConfig, Endpoints, FeatureFlags, MenuTheme, Theme } from '../generated/graphql';
 import { addType } from './utils';
 
-export const createAppConfig = (appConfig: AppConfig) => {
+export const createAppConfig = (appConfig: AppConfig, dmaAppConfig: DmaAppConfig) => {
   const result: AppConfig = {
     id: '1',
     googleAnalyticAccount: appConfig.googleAnalyticAccount || null,
@@ -26,6 +27,7 @@ export const createAppConfig = (appConfig: AppConfig) => {
     featureFlags: createFeatureFlags(appConfig.featureFlags),
     theme: createTheme(appConfig.theme),
     privacyPolicy: appConfig.privacyPolicy || '',
+    dmaConfig: createDmaConfig(dmaAppConfig),
   };
 
   addType(result, 'AppConfig');
@@ -40,6 +42,7 @@ const createEndpoints = (endpoints: Endpoints) => {
     sevenDayForecastUrl: endpoints.sevenDayForecastUrl || null,
     feedProviderUrl: endpoints.feedProviderUrl || null,
     flashChannelUrl: endpoints.flashChannelUrl || null,
+    newsOnDemandUrl: endpoints.newsOnDemandUrl || null,
   };
 
   addType(result, 'Endpoints');
@@ -75,6 +78,7 @@ const createMenuTheme = (menuTheme: MenuTheme) => {
     backgroundColor: menuTheme.backgroundColor,
     borderColor: menuTheme.borderColor,
     selectedItemColor: menuTheme.selectedItemColor,
+    disabledItemColor: menuTheme.disabledItemColor,
   };
 
   addType(result, 'MenuTheme');
@@ -93,6 +97,37 @@ const createCtaTheme = (ctaTheme: CtaTheme) => {
   };
 
   addType(result, 'CtaTheme');
+
+  return result;
+};
+
+const createZipToFipsMap = (dmaAppConfig: DmaAppConfig) => {
+  const zipToFipsMap = [];
+  for (const i in dmaAppConfig.fipsToZip) {
+    const zips = dmaAppConfig.fipsToZip[i];
+    for (const k of zips) {
+      zipToFipsMap.push(
+        addType(
+          {
+            id: k,
+            fips: i,
+          },
+          'ZipToFips',
+        ),
+      );
+    }
+  }
+
+  return zipToFipsMap;
+};
+
+const createDmaConfig = (dmaAppConfig: DmaAppConfig) => {
+  const result: DmaConfig = {
+    id: '1',
+    zipToFipsMap: createZipToFipsMap(dmaAppConfig),
+  };
+
+  addType(result, 'DmaConfig');
 
   return result;
 };

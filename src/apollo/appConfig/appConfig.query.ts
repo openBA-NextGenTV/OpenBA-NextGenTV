@@ -27,6 +27,7 @@ const getAppConfig = gql`
         sevenDayForecastUrl
         feedProviderUrl
         flashChannelUrl
+        newsOnDemandUrl
       }
       featureFlags {
         menuItemsDisabled
@@ -39,6 +40,7 @@ const getAppConfig = gql`
           backgroundColor
           borderColor
           selectedItemColor
+          disabledItemColor
         }
         cta {
           activeButtonColor
@@ -49,6 +51,12 @@ const getAppConfig = gql`
         }
       }
       privacyPolicy
+      dmaConfig {
+        zipToFipsMap {
+          id
+          fips
+        }
+      }
     }
   }
 `;

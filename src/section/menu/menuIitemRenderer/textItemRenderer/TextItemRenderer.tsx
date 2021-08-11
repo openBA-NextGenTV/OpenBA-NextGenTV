@@ -19,7 +19,7 @@ import { FC, useEffect, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
 
 import { Menu } from '../../../../apollo/generated/graphql';
-import { useMenusOperations, useWidgetOperations } from '../../../../state';
+import { useMenusModel, useMenusOperations, useWidgetOperations } from '../../../../state';
 import { isMobile, setFocusedItemToTop } from '../../../../utils';
 import { Container, SubTitle, Thumbnail, Title, TitleImage, TitleWrapper } from './TextItemRenderer.styles';
 
@@ -30,6 +30,7 @@ type Props = {
 export const TextItemRenderer: FC<Props> = ({
   menu: { id, titleImage, title, titleHidden, selected, thumbnail, subTitle, widget },
 }) => {
+  const { isDisable } = useMenusModel();
   const { selectMenu, unselectMenu } = useMenusOperations();
   const { openWidget, closeWidget } = useWidgetOperations();
   const { t } = useTranslation();
@@ -55,7 +56,13 @@ export const TextItemRenderer: FC<Props> = ({
   };
 
   return (
-    <Container id={`${id}_item`} onClick={containerClickHandler} selected={selected} ref={itemRef}>
+    <Container
+      id={`${id}_item`}
+      onClick={containerClickHandler}
+      selected={selected}
+      isDisable={isDisable}
+      ref={itemRef}
+    >
       {thumbnail && <Thumbnail src={thumbnail} />}
 
       <TitleWrapper>

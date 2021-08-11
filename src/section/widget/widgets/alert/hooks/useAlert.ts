@@ -15,6 +15,7 @@
  * limitations under the License.
  */
 
+import objectHash from 'object-hash';
 import { useCallback, useEffect, useState } from 'react';
 
 import { Alert, Page } from '../../../../../apollo/generated/graphql';
@@ -34,20 +35,15 @@ export type PageItemModel = {
 export const useAlert = (alert: Alert) => {
   const { closeWidget } = useWidgetOperations();
 
-  const [pages, setPages] = useState(() => {
-    const result: PageItemModel[] = [
-      { title: 'BackToAlerts', renderer: BackButtonRenderer },
-      ...alert.pages.map(page => ({ title: page.title, payload: page, renderer: TitleRenderer })),
-    ];
+  const [pages, setPages] = useState(getPages(alert));
+  const [alertHash, setAlertHash] = useState(objectHash(alert));
 
-    // select the first page by default
-    if (result.length >= 2) {
-      result[1].selected = true;
-      result[1].highlighted = true;
+  useEffect(() => {
+    if (alertHash !== objectHash(alert)) {
+      setAlertHash(objectHash(alert));
+      setPages(getPages(alert));
     }
-
-    return result;
-  });
+  }, [alert, alertHash]);
 
   const selectHighlightedPage = useCallback(
     () => setPages(pages.map(value => ({ ...value, selected: value.highlighted }))),
@@ -124,6 +120,21 @@ export const useAlert = (alert: Alert) => {
     pages,
     pageClickHandler,
   };
+};
+
+const getPages = (alert: Alert) => {
+  const result: PageItemModel[] = [
+    { title: 'BackToAlerts', renderer: BackButtonRenderer },
+    ...alert.pages.map(page => ({ title: page.title, payload: page, renderer: TitleRenderer })),
+  ];
+
+  // select the first page by default
+  if (result.length >= 2) {
+    result[1].selected = true;
+    result[1].highlighted = true;
+  }
+
+  return result;
 };
 
 const useRegisterView = (commandListener: CommandListener) => {

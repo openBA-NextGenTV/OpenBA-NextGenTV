@@ -20,6 +20,7 @@ import { v4 as uuidv4 } from 'uuid';
 
 import { rpcClient } from '../../../hooks';
 import { Alert, Priority } from '../../generated/graphql';
+import { getAlertBgColor, getAlertIconPath } from '../alertProps';
 
 type Result = {
   alertList: AlertListItem[];
@@ -83,6 +84,8 @@ export const watchAEATAlerts = (handleNewAlerts: (alerts: Alert[]) => void) => {
         expire: expire.getTime(),
         latestPublishTime: effective.getTime(),
         priority: alertPriorityMap[priority],
+        iconPath: getAlertIconPath(eventCode),
+        bgColor: getAlertBgColor(eventCode),
         targets,
         eventCode,
         pages: [

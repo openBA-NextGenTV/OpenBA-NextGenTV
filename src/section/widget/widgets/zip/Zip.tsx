@@ -18,30 +18,30 @@
 import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
-import { useFipsModel, useFipsOperations, useMenusOperations, useWidgetOperations } from '../../../../state';
+import { useMenusOperations, useWidgetOperations, useZipModel, useZipOperations } from '../../../../state';
 import { Container } from '../common';
-import { ContentContainer, Input } from './Fips.styles';
 import { Keyboard } from './keyboard';
+import { ContentContainer, Input } from './Styles';
 
-const FIPS_LENGTH = 6;
+const ZIP_LENGTH = 5;
 
-export const Fips = () => {
-  const { fipsCode, setFipsCode, updateFips } = useFips();
+export const Zip = () => {
+  const { zipCode, setZipCode, updateZip } = useZip();
   const { t } = useTranslation();
   const { closeWidget } = useWidgetOperations();
   const { unselectMenu } = useMenusOperations();
 
   const onDigitClick = (digit: string) => {
-    if (fipsCode.length === FIPS_LENGTH) {
+    if (zipCode.length === ZIP_LENGTH) {
       return;
     }
 
-    setFipsCode(prevState => prevState + digit);
+    setZipCode(prevState => prevState + digit);
   };
 
-  const onDeleteClick = () => setFipsCode(fipsCode.slice(0, -1));
+  const onDeleteClick = () => setZipCode(zipCode.slice(0, -1));
 
-  const onOkClick = () => updateFips(fipsCode);
+  const onOkClick = () => updateZip(zipCode);
 
   const handleBackClick = () => {
     closeWidget();
@@ -49,13 +49,13 @@ export const Fips = () => {
   };
 
   return (
-    <Container title="FIPS Code" titleMobile={t('menu.settings')} handleClick={handleBackClick}>
+    <Container title="Zip Code" titleMobile={t('menu.settings')} handleClick={handleBackClick}>
       <ContentContainer>
-        <Input type="text" value={fipsCode} readOnly />
+        <Input type="text" value={zipCode} readOnly />
 
         <Keyboard
-          okDisabled={fipsCode.length > 0 && fipsCode.length < FIPS_LENGTH}
-          delDisabled={fipsCode.length === 0}
+          okDisabled={zipCode.length > 0 && zipCode.length < ZIP_LENGTH}
+          delDisabled={zipCode.length === 0}
           onDigitClick={onDigitClick}
           onOkClick={onOkClick}
           onDeleteClick={onDeleteClick}
@@ -65,18 +65,18 @@ export const Fips = () => {
   );
 };
 
-const useFips = () => {
-  const [fipsCode, setFipsCode] = useState('');
-  const { updateFips } = useFipsOperations();
-  const { fips } = useFipsModel();
+const useZip = () => {
+  const [zipCode, setZipCode] = useState('');
+  const { updateZip } = useZipOperations();
+  const { zip } = useZipModel();
 
   useEffect(() => {
-    setFipsCode(fips);
-  }, [fips]);
+    setZipCode(zip);
+  }, [zip]);
 
   return {
-    fipsCode,
-    setFipsCode,
-    updateFips,
+    zipCode,
+    setZipCode,
+    updateZip,
   };
 };

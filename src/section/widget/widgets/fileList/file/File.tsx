@@ -15,19 +15,16 @@
  * limitations under the License.
  */
 
-import { dateFormat } from '../../../../../utils';
-import { Date as DateStyles, Name, Row, Size } from './File.styles';
+import { Name, Row, Status } from './File.styles';
 
 export type File = {
   name: string;
-  size: string;
-  date: number;
+  status: string;
 };
 
-export const File = ({ name, size, date }: File) => (
+export const File = ({ name, status }: File) => (
   <Row>
     <Name>{name}</Name>
-    <Size>{size}</Size>
-    <DateStyles>{dateFormat(new Date(date))}</DateStyles>
+    <Status>{status}</Status>
   </Row>
 );

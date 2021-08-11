@@ -15,45 +15,55 @@
  * limitations under the License.
  */
 
-import { useEffect, useState } from 'react';
+type Timer = {
+  name: string;
+  id: number;
+};
 
-export const useNrtFallbackRequest = (url: string, urlLocal: string, fileType?: string, fileTypeLocal?: string) => {
-  const [fileURL, setFileURL] = useState(null as string | null);
-  const [data, setData] = useState(null as any);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(false);
+type Status = {
+  name: string;
+  status: boolean;
+};
 
-  const isPresentFile = (url: string) => {
-    fetch(url, { cache: 'no-cache' })
-      .then(response => response.ok && setFileURL(url))
-      .catch(() => {
-        // do nothing
-      });
-  };
+import { useCallback, useEffect, useState } from 'react';
+
+export const useNrtFallbackRequest = (urls: Array<string>) => {
+  const [status, setStatus] = useState(urls.map(url => ({ name: url, status: false })));
+
+  const isPresentFile = useCallback(
+    (name: string, timer: number) => {
+      const xhr = new XMLHttpRequest();
+      xhr.open('HEAD', name);
+      xhr.onload = () => {
+        if (xhr.status === 200) {
+          const withStatus = status.map((file: Status) => (file.name === name ? { ...file, status: true } : file));
+
+          setStatus(withStatus);
+          clearTimeout(timer);
+        }
+      };
+
+      xhr.send();
+    },
+    [status],
+  );
 
   useEffect(() => {
-    const timer = setInterval(() => {
-      fileURL ? clearTimeout(timer) : isPresentFile(urlLocal);
-    }, 1000);
+    const timers: Timer[] = [];
 
-    isPresentFile(url);
+    status.map(({ name, status }) => {
+      if (!timers.some(timer => timer.name === name) && !status) {
+        const timer: number = window.setInterval(() => {
+          isPresentFile(name, timer);
+        }, 1000);
 
-    if (fileURL) {
-      const currentTypeFile = fileURL === url ? fileType : fileTypeLocal;
-      if (currentTypeFile === 'json') {
-        setLoading(true);
-        fetch(fileURL, { cache: 'no-cache' })
-          .then((response: any) => response.json())
-          .then(response => setData(response))
-          .catch(() => setError(true))
-          .finally(() => setLoading(false));
-      } else {
-        setLoading(false);
+        timers.push({ name, id: timer });
       }
-    }
+    });
 
-    return () => clearTimeout(timer);
-  }, [fileURL, url, urlLocal, fileType, fileTypeLocal]);
-
-  return { fileURL, data, loading, error };
+    return () => {
+      timers.map(timer => clearTimeout(timer.id));
+    };
+  }, [isPresentFile, status]);
+  return { status };
 };

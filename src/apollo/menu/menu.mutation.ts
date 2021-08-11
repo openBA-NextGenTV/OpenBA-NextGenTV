@@ -20,6 +20,7 @@ import { ApolloClient, gql, Resolvers } from '@apollo/client';
 import { isDesktop, isMobile } from '../../utils';
 import {
   GetMenuDocument,
+  GetMenuIsDisableDocument,
   GetMenuIsVisibleDocument,
   GetMenuIsVisibleQuery,
   GetMenuQuery,
@@ -31,6 +32,10 @@ export const menuMutation: Resolvers = {
   Mutation: {
     setMenuIsVisible(_, { menuIsVisible }, { cache }) {
       cache.writeQuery({ query: GetMenuIsVisibleDocument, data: { menuIsVisible } });
+    },
+
+    setMenuIsDisable(_, { menuIsDisable }, { cache }) {
+      cache.writeQuery({ query: GetMenuIsDisableDocument, data: { menuIsDisable } });
     },
 
     selectMenu: (_, { menuId }, { cache }) => {

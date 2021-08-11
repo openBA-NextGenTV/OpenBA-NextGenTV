@@ -19,6 +19,7 @@ import { ApolloClient, gql } from '@apollo/client';
 
 import { AppConfig, DeviceInfo, GetAppConfigDocument } from '../generated/graphql';
 import { createAppConfig } from '../typeFactory';
+import { DmaAppConfig } from './appConfig.types';
 
 export const initAppConfigStore = async (client: ApolloClient<any>) => {
   const deviceInfo = client.readFragment<Pick<DeviceInfo, 'station'>>({
@@ -36,21 +37,28 @@ export const initAppConfigStore = async (client: ApolloClient<any>) => {
 
   const { station } = deviceInfo;
 
-  const appConfigJson: AppConfig = await fetch(`stations/${station}/appConfig.json`, {
-    cache: 'no-cache',
-  })
-    .then(value => value.json())
-    .catch(() =>
-      console.error(
-        `Could not read appConfig for ${station} station. The json file is missing at location stations/${station}/appConfig.json`,
+  const [stationAppConfig, dmaAppConfig] = await Promise.all([
+    fetch(`stations/${station}/appConfig.json`, { cache: 'no-cache' })
+      .then(value => value.json())
+      .catch(() =>
+        console.error(
+          `Could not read appConfig for ${station} station. The json file is missing at location stations/${station}/appConfig.json`,
+        ),
       ),
-    );
+    fetch(`stations/appConfig.json`, { cache: 'no-cache' })
+      .then(value => value.json() as Promise<DmaAppConfig>)
+      .catch(() =>
+        console.error(
+          `Could not read DMA appConfig for ${station} station. The json file is missing at location stations/appConfig.json`,
+        ),
+      ),
+  ]);
 
-  if (!appConfigJson) {
+  if (!stationAppConfig || !dmaAppConfig) {
     return;
   }
 
-  const appConfig: AppConfig = createAppConfig(appConfigJson);
+  const appConfig: AppConfig = createAppConfig(stationAppConfig, dmaAppConfig);
 
   client.writeQuery({ query: GetAppConfigDocument, data: { appConfig } });
 };

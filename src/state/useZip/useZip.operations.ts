@@ -15,17 +15,14 @@
  * limitations under the License.
  */
 
-import { Resolvers } from '@apollo/client';
+import { useCallback } from 'react';
 
-import { GetFipsDocument } from '../generated/graphql';
+import { useUpdateZipMutation } from '../../apollo/generated/graphql';
 
-export const fipsMutation: Resolvers = {
-  Mutation: {
-    updateFips: (_, { fips }, { cache }) => {
-      cache.writeQuery({
-        query: GetFipsDocument,
-        data: { fips },
-      });
-    },
-  },
+export const useZipOperations = () => {
+  const [updateZipMutation] = useUpdateZipMutation();
+
+  const updateZip = useCallback((zip: string) => updateZipMutation({ variables: { zip } }), [updateZipMutation]);
+
+  return { updateZip };
 };

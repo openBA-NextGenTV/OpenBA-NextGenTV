@@ -15,14 +15,5 @@
  * limitations under the License.
  */
 
-import { useCallback } from 'react';
-
-import { useUpdateFipsMutation } from '../../apollo/generated/graphql';
-
-export const useFipsOperations = () => {
-  const [updateFipsMutation] = useUpdateFipsMutation();
-
-  const updateFips = useCallback((fips: string) => updateFipsMutation({ variables: { fips } }), [updateFipsMutation]);
-
-  return { updateFips };
-};
+export * from './useZip.model';
+export * from './useZip.operations';

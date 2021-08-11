@@ -86,8 +86,8 @@ const map = new Map<string, Item>(items);
 
 const defaultObj: Item = { iconPath: 'icons/alert/exclamation-orange.svg', bgAlertColor: '#F97301' };
 
-const getAlertNotificationBgColor = (eventCode: string) => map.get(eventCode)?.bgAlertColor || defaultObj.bgAlertColor;
+const getAlertBgColor = (eventCode: string) => map.get(eventCode)?.bgAlertColor || defaultObj.bgAlertColor;
 
-const getAlertNotificationIconPath = (eventCode: string) => map.get(eventCode)?.iconPath || defaultObj.iconPath;
+const getAlertIconPath = (eventCode: string) => map.get(eventCode)?.iconPath || defaultObj.iconPath;
 
-export { getAlertNotificationBgColor, getAlertNotificationIconPath };
+export { getAlertBgColor, getAlertIconPath };

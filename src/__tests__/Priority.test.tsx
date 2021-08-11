@@ -33,12 +33,12 @@ test('verify all items are present', () => {
   const spans = component.root.findAllByType('span');
 
   const items = [
-    'Emergency Only',
-    'High',
-    'Medium (recommended)',
-    'Low',
-    'Diagnostic Alerts (not recommended)',
-    'No Alerts',
+    'Alerts Off',
+    'Alerts for Extreme Danger Only',
+    'Alerts for Critical and Extreme Danger (includes weather warnings)',
+    'Alerts for Important, Critical and Extreme Danger (includes weather watches)',
+    'All Alerts',
+    'All Messages and Alerts (Diagnostic Mode, includes tests)',
   ];
 
   spans.forEach((span, index) => expect(span.children[0]).toBe(items[index]));
