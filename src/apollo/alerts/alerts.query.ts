@@ -29,6 +29,8 @@ const GET_ALERTS = gql`
       priority
       targets
       eventCode
+      iconPath
+      bgColor
       pages {
         id
         title

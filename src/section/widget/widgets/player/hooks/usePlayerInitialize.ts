@@ -31,7 +31,7 @@ export const usePlayerInitialize = (url: string) => {
     let hls: Hls;
     stopRmpPlayback();
 
-    if (videoRef.current.canPlayType('application/vnd.apple.mpegurl') || url.includes('.mp4')) {
+    if (videoRef.current.canPlayType('application/vnd.apple.mpegurl') || getExtension(url) === 'mp4') {
       videoRef.current.src = url;
     } else if (Hls.isSupported()) {
       hls = new Hls();
@@ -48,4 +48,9 @@ export const usePlayerInitialize = (url: string) => {
   }, [url]);
 
   return videoRef;
+};
+
+const getExtension = (url: string) => {
+  const urlSplited = url.split('.');
+  return urlSplited.length > 0 ? urlSplited[urlSplited.length - 1] : '';
 };

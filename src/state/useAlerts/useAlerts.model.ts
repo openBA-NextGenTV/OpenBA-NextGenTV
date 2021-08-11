@@ -16,12 +16,12 @@
  */
 
 import { useGetAlertsQuery, useGetHiddenAlertQuery } from '../../apollo/generated/graphql';
-import { useFipsModel } from '../useFips';
 import { usePriorityModel } from '../usePriority';
+import { useZipModel } from '../useZip';
 import { alertFilter } from './alerts.util';
 
 export const useAlertsModel = () => {
-  const { fips } = useFipsModel();
+  const { fips } = useZipModel();
   const { priority } = usePriorityModel();
 
   const { data: hiddenAlertData } = useGetHiddenAlertQuery();

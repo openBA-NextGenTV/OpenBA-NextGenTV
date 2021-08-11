@@ -14,7 +14,18 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+import { gql } from '@apollo/client';
 
-export * from './fips.fieldPolicy';
-export * from './fips.query';
-export * from './fips.mutation';
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+const GET_STATION_ID_TO_RETURN = gql`
+  query getOtaRadio {
+    stationIdToReturn @client
+  }
+`;
+
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+const SET_STATION_ID_TO_RETURN = gql`
+  mutation setStation($station: String!) {
+    setChannelToReturn(station: $station) @client
+  }
+`;

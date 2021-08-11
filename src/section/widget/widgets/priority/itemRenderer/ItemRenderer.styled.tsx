@@ -19,13 +19,14 @@ import styled from 'styled-components';
 
 import { breakpoints } from '../../../../../utils';
 
-export const Container = styled.div<{ selected?: boolean }>`
+export const Container = styled.div<{ isDisable: boolean; selected?: boolean }>`
   display: flex;
   flex-direction: row;
   align-items: center;
   padding: 20px;
   cursor: pointer;
-  background-color: ${({ selected, theme }) => (selected ? theme.menu.selectedItemColor : 'none')};
+  background-color: ${({ isDisable, selected, theme }) =>
+    selected ? (isDisable ? theme.menu.disabledItemColor : theme.menu.selectedItemColor) : 'none'};
 
   @media (max-width: ${breakpoints.desktop}px) {
     padding: 10px 0 10px 4px;

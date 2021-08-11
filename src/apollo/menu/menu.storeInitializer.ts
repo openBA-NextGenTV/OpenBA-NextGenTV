@@ -17,12 +17,13 @@
 
 import { ApolloClient } from '@apollo/client';
 
-import { GetMenuDocument, GetMenuIsVisibleDocument, Menu } from '../generated/graphql';
+import { GetMenuDocument, GetMenuIsDisableDocument, GetMenuIsVisibleDocument, Menu } from '../generated/graphql';
 import { createMenu, createMetric, createWidget } from '../typeFactory';
 import menuConfig from './menuConfig.json';
 
 export const initMenuStore = (client: ApolloClient<any>) => {
   client.writeQuery({ query: GetMenuIsVisibleDocument, data: { menuIsVisible: false } });
+  client.writeQuery({ query: GetMenuIsDisableDocument, data: { menuIsDisable: false } });
   client.writeQuery({ query: GetMenuDocument, data: { menu: rootMenu } });
 };
 

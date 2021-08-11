@@ -15,18 +15,4 @@
  * limitations under the License.
  */
 
-import { gql } from '@apollo/client';
-
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-const GET_FIPS = gql`
-  query getFips {
-    fips @client
-  }
-`;
-
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-const UPDATE_FIPS = gql`
-  mutation updateFips($fips: String) {
-    updateFips(fips: $fips) @client
-  }
-`;
+export * from './Zip';

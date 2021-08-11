@@ -35,7 +35,13 @@ export const SideMenu: FC<Props> = ({ pages, onPageClick }) => {
 
   return (
     <Wrapper>
-      <Container>{pages.map(page => WithRendererContainer(page.renderer, onContainerClick, page))}</Container>
+      <Container>
+        {pages.map(page => (
+          <WithRendererContainer key={page.title} onContainerClick={onContainerClick} page={page}>
+            <page.renderer page={page} />
+          </WithRendererContainer>
+        ))}
+      </Container>
     </Wrapper>
   );
 };

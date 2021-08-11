@@ -32,6 +32,20 @@ const GET_MENU_IS_VISIBLE = gql`
 `;
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
+const SET_MENU_IS_DISABLE = gql`
+  mutation setMenuIsDisable($menuIsDisable: Boolean) {
+    setMenuIsDisable(menuIsDisable: $menuIsDisable) @client
+  }
+`;
+
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+const GET_MENU_IS_DISABLE = gql`
+  query getMenuIsDisable {
+    menuIsDisable @client
+  }
+`;
+
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 const GET_MENU = gql`
   query getMenu {
     menu @client {

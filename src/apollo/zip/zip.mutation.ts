@@ -15,5 +15,17 @@
  * limitations under the License.
  */
 
-export * from './useFips.model';
-export * from './useFips.operations';
+import { Resolvers } from '@apollo/client';
+
+import { ZipDocument } from '../generated/graphql';
+
+export const zipMutation: Resolvers = {
+  Mutation: {
+    updateZip: (_, { zip }, { cache }) => {
+      cache.writeQuery({
+        query: ZipDocument,
+        data: { zip },
+      });
+    },
+  },
+};

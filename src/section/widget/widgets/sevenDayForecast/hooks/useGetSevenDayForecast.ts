@@ -19,8 +19,8 @@ import { useEffect, useState } from 'react';
 
 import { DeviceMake, useGetAppConfigQuery } from '../../../../../apollo/generated/graphql';
 import { useDeviceInfoModel } from '../../../../../state';
-import { isToday, loadUntilSuccess } from '../../../../../utils';
-import { Day, ResultData } from './types';
+import { loadUntilSuccess } from '../../../../../utils';
+import { ResultData } from './types';
 
 export const useGetSevenDayForecast = () => {
   const { data: appConfigData } = useGetAppConfigQuery();
@@ -49,43 +49,9 @@ export const useGetSevenDayForecast = () => {
           ? `../weather-7day.pkg/dynamic/weather/7day/weather-7day-${station}.json`
           : `dynamic/weather/7day/weather-7day-${station}.json`;
 
-      loadUntilSuccess(url).then(value => completeDataHandler(parseData(value)));
+      loadUntilSuccess(url).then(value => completeDataHandler(value as ResultData));
     }
   }, [isInternetConnected, sevenDayForecastUrl, deviceMake, station]);
 
   return { data, loading };
-};
-
-// temporary BA need to convert data from json.
-// In the future - json will have the same structure like from adapter endpoint
-const parseData = (data: any) => {
-  const forecast = data?.data?.[0]?.forecast;
-  const { city, state } = forecast;
-  const { tempF, iconCode, skyText } = forecast?.current;
-
-  const days: Day[] = forecast?.weatherForecasts
-    .map((day: any) => ({
-      dateTime: day.dateTime,
-      image: day?.modifiedIconCode || day.origIconCode,
-      title: day?.modifiedSkyText || day.origSkyText,
-      hiTemp: day?.modifiedHiTempF || day.origHiTempF,
-      lowTemp: day?.modifiedLoTempF || day.origLoTempF,
-      precipitation: day?.modifiedPrecipChance || day.origPrecipChance,
-      wind: day?.modifiedWindSpeedMph || day.wndSpdMph,
-      windDirection: day.wndDirCardinal,
-      humidity: day.relHumidity,
-      ultraviolet: day?.modifiedUvDescription || day.uvDescr,
-    }))
-    .filter((day: Day) => day.dateTime > Date.now() || isToday(day.dateTime))
-    .sort((a: Day, b: Day) => a.dateTime - b.dateTime)
-    .slice(0, 7);
-
-  return {
-    city,
-    state,
-    headerTemp: tempF,
-    headerImage: iconCode,
-    headerTitle: skyText,
-    days,
-  } as ResultData;
 };

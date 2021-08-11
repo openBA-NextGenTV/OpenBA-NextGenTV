@@ -19,10 +19,10 @@ import { FC, useCallback, useEffect, useMemo, useState } from 'react';
 
 import { createMetric, createWidget } from '../../../../../apollo/typeFactory';
 import { Command, registerView, unregisterView } from '../../../../../hooks';
-import { useWidgetOperations } from '../../../../../state';
+import { useMenusModel, useWidgetOperations } from '../../../../../state';
 import { CancelButton, Container, DeleteButton, DigitButton, OkButton } from './Keyboard.styles';
 
-const FIPS_VIEW_ID = 'FIPS';
+const ZIP_VIEW_ID = 'ZIP';
 const EASTER_KEY = '12deldel34deldel56deldel78deldel90deldel0';
 
 type KeyboardProps = {
@@ -38,6 +38,7 @@ type ButtonProps = {
   value: string;
   disabled?: boolean;
   onClick?: (item: any) => void;
+  isMenuDisabled: boolean;
 };
 
 export const Keyboard: FC<KeyboardProps> = ({ onDigitClick, onDeleteClick, onOkClick, delDisabled, okDisabled }) => {
@@ -65,6 +66,7 @@ export const Keyboard: FC<KeyboardProps> = ({ onDigitClick, onDeleteClick, onOkC
   const [focusedButtonIndex, setFocusedButtonIndex] = useState(0);
   const { openWidget, closeWidget } = useWidgetOperations();
   const [key, setKey] = useState('');
+  const { isDisable: isMenuDisabled } = useMenusModel();
 
   //easter egg for File List Widget
   const addEasterKey = useCallback(
@@ -157,10 +159,10 @@ export const Keyboard: FC<KeyboardProps> = ({ onDigitClick, onDeleteClick, onOkC
 
   useEffect(() => {
     if (focusedButtonIndex >= 0) {
-      registerView({ viewId: FIPS_VIEW_ID, listener: commandListener });
+      registerView({ viewId: ZIP_VIEW_ID, listener: commandListener });
     }
 
-    return () => unregisterView({ viewId: FIPS_VIEW_ID });
+    return () => unregisterView({ viewId: ZIP_VIEW_ID });
   }, [commandListener, focusedButtonIndex]);
 
   return (
@@ -173,6 +175,7 @@ export const Keyboard: FC<KeyboardProps> = ({ onDigitClick, onDeleteClick, onOkC
           <Component
             selected={focusedButtonIndex === allButtons[key].position}
             disabled={allButtons[key].disabled}
+            isMenuDisabled={isMenuDisabled}
             value={el}
             key={el}
             onClick={handleItemClick}

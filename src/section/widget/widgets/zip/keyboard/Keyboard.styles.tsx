@@ -37,7 +37,12 @@ export const Container = styled.div`
   }
 `;
 
-export const DigitButton = styled.button<{ selected: boolean; value: string; disabled: boolean }>`
+export const DigitButton = styled.button<{
+  isMenuDisabled: boolean;
+  selected: boolean;
+  value: string;
+  disabled: boolean;
+}>`
   border-radius: 10px;
   justify-self: center;
   width: 70px;
@@ -46,7 +51,8 @@ export const DigitButton = styled.button<{ selected: boolean; value: string; dis
   font-size: 24px;
   border-color: transparent;
   opacity: ${({ disabled }) => (disabled ? 0.4 : 1)};
-  background-color: ${({ selected, theme }) => (selected ? theme.menu.selectedItemColor : 'white')};
+  background-color: ${({ isMenuDisabled, selected, theme }) =>
+    selected ? (isMenuDisabled ? theme.menu.disabledItemColor : theme.menu.selectedItemColor) : 'white'};
   color: ${({ selected }) => (selected ? 'white' : 'black')};
   grid-area: ${props => '_' + props.value};
   &:focus {

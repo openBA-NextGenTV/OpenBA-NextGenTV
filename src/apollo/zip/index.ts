@@ -15,4 +15,6 @@
  * limitations under the License.
  */
 
-export * from './Fips';
+export * from './zip.fieldPolicy';
+export * from './zip.query';
+export * from './zip.mutation';

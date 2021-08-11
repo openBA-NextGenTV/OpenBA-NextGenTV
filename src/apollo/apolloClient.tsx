@@ -21,11 +21,13 @@ import { FC } from 'react';
 import { alertsMutation, hiddenAlertFieldPolicy, initAlertsStore } from './alerts';
 import { initAppConfigStore } from './appConfig';
 import { initDeviceInfoStore } from './deviceInfo';
-import { fipsFieldPolicy, fipsMutation } from './fips';
 import { flashChannelMutation, hiddenFlashChannelFieldPolicy, initFlashChannelsStore } from './flashChannel';
 import { initMenuStore, initMenuWatchers, menuMutation } from './menu';
+import { otaRadioMutation, otaRadioPolicy } from './otaRadio';
+import { iniOtaRadioStore } from './otaRadio/otaRadio.storeInitializer';
 import { initPriorityStore, priorityFieldPolicy, priorityMutation } from './priority';
 import { initWidgetStore, widgetMutation } from './widget';
+import { zipFieldPolicy, zipMutation } from './zip';
 
 /**
  * Apollo store are based on these concepts:
@@ -50,9 +52,10 @@ import { initWidgetStore, widgetMutation } from './widget';
 
 const rootFieldPolicies: TypePolicy['fields'] = {};
 
-Object.assign(rootFieldPolicies, fipsFieldPolicy());
-Object.assign(rootFieldPolicies, priorityFieldPolicy());
+Object.assign(rootFieldPolicies, zipFieldPolicy());
 Object.assign(rootFieldPolicies, hiddenAlertFieldPolicy());
+Object.assign(rootFieldPolicies, priorityFieldPolicy());
+Object.assign(rootFieldPolicies, otaRadioPolicy());
 Object.assign(rootFieldPolicies, hiddenFlashChannelFieldPolicy());
 
 const cache: InMemoryCache = new InMemoryCache({
@@ -78,7 +81,8 @@ Object.assign(resolvers.Mutation, menuMutation.Mutation);
 Object.assign(resolvers.Mutation, alertsMutation.Mutation);
 Object.assign(resolvers.Mutation, flashChannelMutation.Mutation);
 Object.assign(resolvers.Mutation, priorityMutation.Mutation);
-Object.assign(resolvers.Mutation, fipsMutation.Mutation);
+Object.assign(resolvers.Mutation, otaRadioMutation.Mutation);
+Object.assign(resolvers.Mutation, zipMutation.Mutation);
 Object.assign(resolvers.Mutation, widgetMutation.Mutation);
 
 const client = new ApolloClient({
@@ -94,6 +98,7 @@ const initStoreInitializers = async () => {
   initFlashChannelsStore(client);
   initPriorityStore();
   initWidgetStore(client);
+  iniOtaRadioStore();
 };
 
 initStoreInitializers().then(() => initWatchers());

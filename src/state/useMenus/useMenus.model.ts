@@ -15,11 +15,18 @@
  * limitations under the License.
  */
 
-import { Menu, useGetMenuIsVisibleQuery, useGetMenuQuery } from '../../apollo/generated/graphql';
+import {
+  Menu,
+  useGetMenuIsDisableQuery,
+  useGetMenuIsVisibleQuery,
+  useGetMenuQuery,
+} from '../../apollo/generated/graphql';
 
 export const useMenusModel = () => {
   const { data: isVisibleData } = useGetMenuIsVisibleQuery();
+  const { data: isDisableData } = useGetMenuIsDisableQuery();
   const isVisible = isVisibleData?.menuIsVisible || false;
+  const isDisable = isDisableData?.menuIsDisable || false;
 
   const { data: menuData } = useGetMenuQuery();
   const menus = menuData ? makeMenus(menuData.menu, []) : [];
@@ -27,6 +34,7 @@ export const useMenusModel = () => {
   return {
     menus,
     isVisible,
+    isDisable,
   };
 };
 

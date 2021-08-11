@@ -1,8 +1,8 @@
 export type ResultData = {
   city: string;
   state: string;
-  headerTemp: string;
-  headerImage: string;
+  headerTemp: number;
+  headerImage: number;
   headerTitle: string;
   days: Day[];
 };

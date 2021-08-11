@@ -31,8 +31,6 @@ import {
   FeatureFlags,
   GetAlertsDocument,
   GetAlertsQuery,
-  GetFipsDocument,
-  GetFipsQuery,
   GetFlashChannelDocument,
   GetFlashChannelQuery,
   GetMenuDocument,
@@ -40,9 +38,13 @@ import {
   GetPriorityDocument,
   GetPriorityQuery,
   Menu,
+  ZipDocument,
+  ZipQuery,
+  ZipToFips,
 } from '../generated/graphql';
 import { fetchFeeds } from './feedFetcher';
 import { createMenuItemsFromAlerts } from './menu.utils';
+import { fetchNews } from './newsOnDemandFetcher/menusOnDemandFetcher';
 
 const getFeedProviderEndpointUrlQuery = gql`
   query getFeedProviderEndpointUrl {
@@ -73,6 +75,16 @@ const getMenuItemsDisabledQuery = gql`
   }
 `;
 
+const newsOnDemandUrlQuery = gql`
+  query newsOnDemandUrlQuery {
+    appConfig @client {
+      endpoints {
+        newsOnDemandUrl
+      }
+    }
+  }
+`;
+
 const isAlertsDisabled = (client: ApolloClient<any>) => {
   const featureFlags = client.readFragment<FeatureFlags>({
     id: 'FeatureFlags:1',
@@ -90,7 +102,7 @@ export const initMenuWatchers = (client: ApolloClient<any>) => {
   if (!isAlertsDisabled(client)) {
     client.watchQuery({ query: GetAlertsDocument }).subscribe(() => populateMenuByAlertsAndFlashChanel(client));
     client.watchQuery({ query: GetPriorityDocument }).subscribe(() => populateMenuByAlertsAndFlashChanel(client));
-    client.watchQuery({ query: GetFipsDocument }).subscribe(() => populateMenuByAlertsAndFlashChanel(client));
+    client.watchQuery({ query: ZipDocument }).subscribe(() => populateMenuByAlertsAndFlashChanel(client));
     client.watchQuery({ query: GetFlashChannelDocument }).subscribe(() => populateMenuByAlertsAndFlashChanel(client));
   }
 
@@ -98,6 +110,79 @@ export const initMenuWatchers = (client: ApolloClient<any>) => {
   client.watchQuery({ query: getFeedProviderEndpointUrlQuery }).subscribe(({ data }) => populateFeeds(client, data));
   client.watchQuery({ query: GET_STATION }).subscribe(({ data }) => processDeviceInfo(client, data));
   client.watchQuery({ query: getMenuItemsDisabledQuery }).subscribe(() => processHiddenMenu(client));
+
+  client.watchQuery({ query: newsOnDemandUrlQuery }).subscribe(({ data }) => processNewsOnDemand(client, data));
+};
+
+type asdType = {
+  appConfig: Pick<AppConfig, 'featureFlags' | 'endpoints'>;
+};
+
+const processNewsOnDemand = async (client: ApolloClient<any>, data: asdType) => {
+  if (!data.appConfig.endpoints.newsOnDemandUrl) {
+    return;
+  }
+
+  const news: Menu[] = await fetchNews(data.appConfig.endpoints.newsOnDemandUrl);
+
+  client.writeFragment({
+    id: 'Menu:menu_newsOnDemand',
+    fragment: gql`
+      fragment newsOnDemand on Menu {
+        items {
+          id
+          titleImage
+          title
+          titleHidden
+          subTitle
+          showTime
+          headerImage
+          footerImage
+          thumbnail
+          noItemsText
+          widget {
+            id
+            type
+            payload
+            metric {
+              page
+              title
+            }
+          }
+          selected
+          hidden
+          items {
+            id
+            titleImage
+            title
+            titleHidden
+            subTitle
+            showTime
+            headerImage
+            footerImage
+            thumbnail
+            noItemsText
+            widget {
+              id
+              type
+              payload
+              metric {
+                page
+                title
+              }
+            }
+            selected
+            hidden
+          }
+        }
+      }
+    `,
+    data: {
+      items: news,
+    },
+  });
+
+  processHiddenMenu(client);
 };
 
 const populateMenuByAlertsAndFlashChanel = (client: ApolloClient<any>) => {
@@ -110,7 +195,19 @@ const populateMenuByAlertsAndFlashChanel = (client: ApolloClient<any>) => {
   }
 
   const { alerts: alertsApollo } = client.readQuery({ query: GetAlertsDocument }) as GetAlertsQuery;
-  const { fips } = client.readQuery({ query: GetFipsDocument }) as GetFipsQuery;
+  const zipData = client.readQuery({ query: ZipDocument }) as ZipQuery;
+  const zip = zipData.zip || '';
+
+  const zipToFip = client.readFragment<ZipToFips>({
+    id: `ZipToFips:${zip}`,
+    fragment: gql`
+      fragment readZipToFips on ZipToFips {
+        fips
+      }
+    `,
+  });
+
+  const fips = zip === '' ? '' : zipToFip?.fips || null;
   const { priority } = client.readQuery({ query: GetPriorityDocument }) as GetPriorityQuery;
   const { flashChannel } = client.readQuery({ query: GetFlashChannelDocument }) as GetFlashChannelQuery;
 

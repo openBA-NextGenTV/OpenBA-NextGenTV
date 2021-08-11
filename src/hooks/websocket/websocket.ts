@@ -51,3 +51,6 @@ export const resumeRmpPlayback = () => rpcClient?.call('org.atsc.setRMPURL', { o
 
 export const queryDeviceInfo = () =>
   rpcClient?.call('org.atsc.query.deviceInfo') as Promise<{ deviceMake: DeviceMake }>;
+
+export const acquireService = (globalServiceID: string) =>
+  rpcClient?.call('org.atsc.acquire.service', { svcToAcquire: globalServiceID });

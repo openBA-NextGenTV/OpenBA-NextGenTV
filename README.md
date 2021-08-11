@@ -28,6 +28,7 @@ You able to control main aspects of the BA via appConfig.json:
       Forecast
     - feedProviderUrl - BA uses this url to gather data about feeds (Top Stories, Local News, etc.)
     - flashChannelUrl - BA uses this url to gather data about Flash channel (Watch Now)
+    - newsOnDemandUrl - BA uses this url to gather data about News on Demand
 
 ### Endpoints
 
@@ -131,6 +132,23 @@ Not available, response:
 }
 ```
 
+#### newsOnDemandUrl
+request:
+GET: https://some.newsOnDemandUrl <br />
+response:
+```json
+[
+  {
+    "id": "1076526",
+    "title": "WRAL News Brief",
+    "category": "News",
+    "duration": 94,
+    "thumbnailUrl": "https://wwwcache.wral.com/asset/news/2020/04/21/19065204/NewsBrief_SixAnchors-DMID1-5p23h0r8u-320x180.jpg",
+    "videoUrl": "https://media-hls.wral.com/vodhttporigins3/_definst_/mp4:amazons3/cbcnm-static-web-content/home/web/wral/public/asset/news/2006/11/30/1076526/news_brief-DMID1-5rjbjoz8z-1280x720-30-2392.mp4/playlist.m3u8"
+  }
+]
+```
+
 ### Initialization phases
 
 When a BA is loaded by TV's browser, it makes several action to initialize its internal components:
@@ -198,7 +216,7 @@ In case you need to run it locally, create trigger.json manually under /public/d
             },
             "targets": [
               "target:dma:521",
-              "target:fips:25005"
+              "target:zip:25005"
             ]
           }
         ]

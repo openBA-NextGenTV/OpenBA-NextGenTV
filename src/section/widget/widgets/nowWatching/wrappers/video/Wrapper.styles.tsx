@@ -17,6 +17,8 @@
 
 import styled from 'styled-components';
 
+import { breakpoints } from '../../../../../../utils';
+
 export const Container = styled.div`
   width: 100%;
   height: 100%;
@@ -26,5 +28,9 @@ export const Container = styled.div`
 `;
 
 export const PlayerContainer = styled.div<{ isFullScreen: boolean }>`
-  height: ${({ isFullScreen }) => (isFullScreen ? '100%' : 'calc(100vh - 15%)')};
+  height: ${({ isFullScreen }) => (isFullScreen ? '100%' : 'calc(100% - 60px)')};
+
+  @media (max-width: ${breakpoints.desktop}px) {
+    height: ${({ isFullScreen }) => (isFullScreen ? '100%' : 'calc(100% - 40px)')};
+  }
 `;

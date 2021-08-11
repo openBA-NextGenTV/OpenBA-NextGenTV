@@ -24,14 +24,15 @@ import { Circle, Container, Label } from './ItemRenderer.styled';
 type Props = {
   item: Item;
   onClick: (item: Item) => void;
+  isDisable: boolean;
 };
 
-export const ItemRenderer: FC<Props> = ({ item, onClick }) => {
+export const ItemRenderer: FC<Props> = ({ item, onClick, isDisable }) => {
   const containerClickHandler = () => onClick(item);
   const { t } = useTranslation();
 
   return (
-    <Container onClick={containerClickHandler} selected={item.selected}>
+    <Container onClick={containerClickHandler} selected={item.selected} isDisable={isDisable}>
       <Circle selected={item.selected} />
       <Label>{t(item.label)}</Label>
     </Container>

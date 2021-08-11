@@ -1,10 +1,11 @@
 import { useCallback, useEffect } from 'react';
 
 import { Command, registerView, unregisterView } from '../../../../../hooks';
-import { useWidgetOperations } from '../../../../../state';
+import { useMenusModel, useWidgetOperations } from '../../../../../state';
 
 export const useCommandListener = () => {
   const { closeWidget } = useWidgetOperations();
+  const { isDisable } = useMenusModel();
 
   const commandListener = useCallback(
     (command: Command) => {
@@ -20,8 +21,12 @@ export const useCommandListener = () => {
   );
 
   useEffect(() => {
-    registerView({ viewId: 'Priority', listener: commandListener });
+    if (isDisable) {
+      unregisterView({ viewId: 'Priority' });
+    } else {
+      registerView({ viewId: 'Priority', listener: commandListener });
+    }
 
     return () => unregisterView({ viewId: 'Priority' });
-  }, [commandListener]);
+  }, [commandListener, isDisable]);
 };

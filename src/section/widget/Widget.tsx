@@ -24,7 +24,6 @@ import {
   Alert,
   AudioPlayerWrapper,
   FileList,
-  Fips,
   LatestWeathercast,
   Priority,
   PrivacyPolicy,
@@ -32,7 +31,9 @@ import {
   SevenDayForecast,
   SystemInfo,
   VideoPlayerWrapper,
+  Zip,
 } from './widgets';
+import { Radio } from './widgets/otaRadio';
 
 export type WidgetComponentProps = {
   widget: WidgetModel;
@@ -60,8 +61,8 @@ export const Widget = () => {
     case 'videoPlayer':
       WidgetComponent = VideoPlayerWrapper;
       break;
-    case 'fips':
-      WidgetComponent = Fips;
+    case 'zip':
+      WidgetComponent = Zip;
       needToShowRMPPlaceHolder = true;
       break;
     case 'priority':
@@ -83,6 +84,9 @@ export const Widget = () => {
       break;
     case 'fileList':
       WidgetComponent = FileList;
+      break;
+    case 'otaRadio':
+      WidgetComponent = Radio;
       break;
   }
 

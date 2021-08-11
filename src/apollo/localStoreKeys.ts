@@ -17,6 +17,7 @@
 
 export const HIDDEN_ALERT = 'HIDDEN_ALERT';
 export const HIDDEN_FLASH_CHANNEL = 'HIDDEN_FLASH_CHANNEL';
-export const FIPS = 'FIPS';
+export const ZIP = 'ZIP';
 export const PRIORITY = 'PRIORITY';
 export const DEVICE_ID = 'DEVICE_ID';
+export const STATION_ID_RETURN = 'STATION_ID_RETURN';

@@ -20,18 +20,24 @@ import { useTranslation } from 'react-i18next';
 
 import { Priority as PriorityEnum } from '../../../../apollo/generated/graphql';
 import { Item, useController } from '../../../../hooks';
-import { useMenusOperations, usePriorityModel, usePriorityOperations, useWidgetOperations } from '../../../../state';
+import {
+  useMenusModel,
+  useMenusOperations,
+  usePriorityModel,
+  usePriorityOperations,
+  useWidgetOperations,
+} from '../../../../state';
 import { Container } from '../common';
 import { useCommandListener } from './hooks';
 import { ItemRenderer } from './itemRenderer';
 
 export const ITEMS: Item[] = [
+  { label: 'menu.priority.items.noAlerts', payload: PriorityEnum.NoAlerts },
   { label: 'menu.priority.items.emergencyOnly', payload: PriorityEnum.Emergency },
   { label: 'menu.priority.items.high', payload: PriorityEnum.High },
   { label: 'menu.priority.items.medium', payload: PriorityEnum.Medium },
   { label: 'menu.priority.items.low', payload: PriorityEnum.Low },
   { label: 'menu.priority.items.diagnostic', payload: PriorityEnum.Diagnostic },
-  { label: 'menu.priority.items.noAlerts', payload: PriorityEnum.NoAlerts },
 ];
 
 export const Priority = () => {
@@ -40,13 +46,14 @@ export const Priority = () => {
   const { updatePriority } = usePriorityOperations();
   const { selectMenu } = useMenusOperations();
   const { t } = useTranslation();
+  const { isDisable } = useMenusModel();
 
   useCommandListener();
 
   const selectItem = useCallback((item: Item) => updatePriority(item.payload), [updatePriority]);
 
   const items = ITEMS.map(item => ({ ...item, selected: item.payload === priority }));
-  useController('Priority', items, selectItem);
+  useController('Priority', items, selectItem, 'vertical', isDisable);
 
   const handleBackClick = () => {
     closeWidget();
@@ -56,7 +63,7 @@ export const Priority = () => {
   return (
     <Container title={t('menu.priority.title')} titleMobile={t('menu.settings')} handleClick={handleBackClick}>
       {items.map(item => (
-        <ItemRenderer key={item.label} onClick={selectItem} item={item} />
+        <ItemRenderer key={item.label} onClick={selectItem} item={item} isDisable={isDisable} />
       ))}
     </Container>
   );

@@ -19,14 +19,15 @@ import styled from 'styled-components';
 
 import { breakpoints } from '../../../../../../utils';
 
-export const Container = styled.button<{ selected?: boolean }>`
+export const Container = styled.button<{ isDisable: boolean; selected?: boolean }>`
   display: flex;
   align-items: center;
   padding: 20px;
   width: 100%;
   color: white;
   border: none;
-  background-color: ${({ selected, theme }) => (selected ? theme.menu.selectedItemColor : 'transparent')};
+  background-color: ${({ isDisable, selected, theme }) =>
+    selected ? (isDisable ? theme.menu.disabledItemColor : theme.menu.selectedItemColor) : 'transparent'};
   cursor: pointer;
 
   &:focus {

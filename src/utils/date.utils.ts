@@ -38,16 +38,6 @@ export const dateFormatMonthAndDay = (date: number) =>
     day: 'numeric',
   }).format(date);
 
-export const isToday = (date: number) => {
-  const today = new Date();
-  const dateToCheck = new Date(date);
-  return (
-    dateToCheck.getDate() === today.getDate() &&
-    dateToCheck.getMonth() === today.getMonth() &&
-    dateToCheck.getFullYear() === today.getFullYear()
-  );
-};
-
 export const secondsToString = (secondsInput: number) => {
   if (!secondsInput) return '';
 

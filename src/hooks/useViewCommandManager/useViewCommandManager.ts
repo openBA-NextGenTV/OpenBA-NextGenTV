@@ -26,6 +26,7 @@ const ALL_COMMANDS: Command[] = [...ARROWS, 'Enter', 'Backspace', 'ColorF2Yellow
 const KEY_CODES_COMMANDS: { [key: number]: Command } = {
   8: 'Backspace',
   13: 'Enter',
+  27: 'Backspace',
   37: 'ArrowLeft',
   38: 'ArrowUp',
   39: 'ArrowRight',
@@ -41,7 +42,7 @@ const keydownHandler = (event: KeyboardEvent) => {
     command = 'Backspace';
   }
 
-  if (command === undefined) {
+  if (!command) {
     // LG TV returns undefined for event.code
     // keyCode is only available option
     command = KEY_CODES_COMMANDS[event.keyCode];

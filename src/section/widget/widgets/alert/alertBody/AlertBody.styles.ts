@@ -25,8 +25,9 @@ export const Container = styled.div`
   width: 100%;
 `;
 
-export const TitleWrapper = styled.div`
-  background-color: #e76f01;
+export const TitleWrapper = styled.div<{ bgColor: string }>`
+  position: relative;
+  background-color: ${({ bgColor }) => bgColor};
   padding: 20px 0;
 
   @media (max-width: ${breakpoints.desktop}px) {
@@ -35,12 +36,15 @@ export const TitleWrapper = styled.div`
 `;
 
 export const Title = styled.p`
-  font-size: 48px;
+  padding-left: 80px;
   color: white;
+  font-size: 48px;
   text-align: center;
 
   @media (max-width: ${breakpoints.desktop}px) {
-    font-size: 36px;
+    padding-left: 40px;
+    font-size: 26px;
+    word-break: break-word;
   }
 `;
 

@@ -24,6 +24,7 @@ import {
   useSelectMenuNextMutation,
   useSelectMenuParentMutation,
   useSelectMenuPreviousMutation,
+  useSetMenuIsDisableMutation,
   useSetMenuIsVisibleMutation,
   useUnselectMenuItemsMutation,
   useUnselectMenuMutation,
@@ -31,6 +32,7 @@ import {
 
 export const useMenusOperations = () => {
   const [setMenuIsVisible] = useSetMenuIsVisibleMutation();
+  const [setMenuIsDisable] = useSetMenuIsDisableMutation();
   const [selectMenuMutation] = useSelectMenuMutation();
   const [unselectMenuMutation] = useUnselectMenuMutation();
   const [unselectMenuItemsMutation] = useUnselectMenuItemsMutation();
@@ -42,6 +44,10 @@ export const useMenusOperations = () => {
   const showMenu = useCallback(() => setMenuIsVisible({ variables: { menuIsVisible: true } }), [setMenuIsVisible]);
 
   const hideMenu = useCallback(() => setMenuIsVisible({ variables: { menuIsVisible: false } }), [setMenuIsVisible]);
+
+  const enableMenu = useCallback(() => setMenuIsDisable({ variables: { menuIsDisable: false } }), [setMenuIsDisable]);
+
+  const disableMenu = useCallback(() => setMenuIsDisable({ variables: { menuIsDisable: true } }), [setMenuIsDisable]);
 
   const selectMenu = useCallback((menuId: Menu['id']) => selectMenuMutation({ variables: { menuId } }), [
     selectMenuMutation,
@@ -62,6 +68,8 @@ export const useMenusOperations = () => {
   return {
     showMenu,
     hideMenu,
+    enableMenu,
+    disableMenu,
     selectMenu,
     unselectMenu,
     unselectMenuItems,
