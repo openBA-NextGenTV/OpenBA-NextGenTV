@@ -40,7 +40,7 @@ export const createAlert = (alert: Alert) => {
 };
 
 const createPage = (page: Page) => {
-  const result: Page = { id: page.id, title: page.title, story: page.story, imageUrl: page.imageUrl };
+  const result: Page = { id: page.id, title: page.title, story: page.story, mediaUrl: page.mediaUrl };
 
   addType(result, 'Page');
 

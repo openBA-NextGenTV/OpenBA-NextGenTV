@@ -20,28 +20,22 @@ import { FC } from 'react';
 import { Alert } from '../../../../../apollo/generated/graphql';
 import { Icon } from '../../../../notificationBar/NotificationBar.styles';
 import { PageItemModel } from '../hooks';
-import {
-  Container,
-  ContentContainer,
-  ContentItem,
-  Description,
-  Image,
-  PageTitle,
-  Title,
-  TitleWrapper,
-} from './AlertBody.styles';
+import { MediaResolver } from './components/mediaResolver';
+import { Container, ContentContainer, ContentItem, Description, PageTitle, Title, TitleWrapper } from './Styles';
 
-type Props = {
+interface Props {
   alert: Alert;
   page?: PageItemModel;
-};
+  pageActive: boolean;
+  setPageActive: (a: boolean) => void;
+}
 
-export const AlertBody: FC<Props> = ({ alert, page }) => {
+export const AlertBody: FC<Props> = ({ alert, page, pageActive, setPageActive }) => {
   if (!page) {
     return <></>;
   }
 
-  const imageUrl = page.payload?.imageUrl;
+  const mediaUrl = page.payload?.mediaUrl;
 
   return (
     <Container>
@@ -53,9 +47,9 @@ export const AlertBody: FC<Props> = ({ alert, page }) => {
       <PageTitle id="alert_details_page_title">{page.title}</PageTitle>
 
       <ContentContainer>
-        {imageUrl && (
+        {mediaUrl && (
           <ContentItem>
-            <Image id="alert_details_page_img" src={imageUrl} />
+            <MediaResolver mediaUrl={mediaUrl} pageActive={pageActive} setPageActive={setPageActive} />
           </ContentItem>
         )}
 

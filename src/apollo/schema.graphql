@@ -87,7 +87,7 @@ type Page {
     id: ID!
     title: String!
     story: String!
-    imageUrl: String
+    mediaUrl: String
 }
 
 type Menu {

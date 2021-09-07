@@ -21,7 +21,8 @@ import {
   Container,
   ContainerHeader,
   ContainerMessage,
-  HeaderImage,
+  HeaderIcon,
+  HeaderIconCode,
   HeaderLocation,
   HeaderTemp,
   HeaderTitle,
@@ -42,20 +43,28 @@ export const SevenDayForecast = () => {
     return <ContainerMessage>Weather is not available.</ContainerMessage>;
   }
 
-  const { city, state, headerTemp, headerImage, headerTitle, days } = data;
+  const { location, headerTemp, headerIconCode, headerIconUrl, headerTitle, days } = data;
+
+  const getIcon = () => {
+    if (headerIconCode) {
+      return <HeaderIconCode className={`wi wi-${headerIconCode}`} />;
+    }
+
+    if (headerIconUrl) {
+      return <HeaderIcon src={headerIconUrl} />;
+    }
+  };
 
   return (
     <Container>
       <ContainerHeader>
         <HeaderTemp>{headerTemp}°</HeaderTemp>
 
-        <HeaderImage className={`wi wi-${headerImage}`} />
+        {getIcon()}
 
         <HeaderTitle>{headerTitle}</HeaderTitle>
 
-        <HeaderLocation>
-          {city}, {state}
-        </HeaderLocation>
+        <HeaderLocation>{location}</HeaderLocation>
       </ContainerHeader>
 
       <WeatherDays>

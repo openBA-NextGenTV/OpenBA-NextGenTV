@@ -16,7 +16,6 @@
  */
 
 export * from './date.utils';
-export * from './app.utils';
 export * from './view.utils';
 export * from './breakpoints.utils';
 export * from './network.utils';

@@ -19,7 +19,14 @@ import objectHash from 'object-hash';
 import { useCallback, useEffect, useState } from 'react';
 
 import { Alert, Page } from '../../../../../apollo/generated/graphql';
-import { Command, CommandListener, registerView, unregisterView } from '../../../../../hooks';
+import {
+  Command,
+  CommandListener,
+  registerView,
+  resumeRmpPlayback,
+  stopRmpPlayback,
+  unregisterView,
+} from '../../../../../hooks';
 import { useMenusOperations, useWidgetOperations } from '../../../../../state';
 import { isMobile } from '../../../../../utils';
 import { BackButtonRenderer, TitleRenderer } from '../sideMenu/renderer';
@@ -37,6 +44,7 @@ export const useAlert = (alert: Alert) => {
 
   const [pages, setPages] = useState(getPages(alert));
   const [alertHash, setAlertHash] = useState(objectHash(alert));
+  const [pageActive, setPageActive] = useState(false);
 
   useEffect(() => {
     if (alertHash !== objectHash(alert)) {
@@ -44,6 +52,13 @@ export const useAlert = (alert: Alert) => {
       setPages(getPages(alert));
     }
   }, [alert, alertHash]);
+
+  useEffect(() => {
+    stopRmpPlayback();
+    return () => {
+      resumeRmpPlayback();
+    };
+  }, []);
 
   const selectHighlightedPage = useCallback(
     () => setPages(pages.map(value => ({ ...value, selected: value.highlighted }))),
@@ -82,6 +97,7 @@ export const useAlert = (alert: Alert) => {
         pages.forEach(value => (value.highlighted = false));
         page.highlighted = true;
         selectHighlightedPage();
+        setPageActive(false);
       }
     },
     [closeWidget, pages, selectHighlightedPage],
@@ -97,16 +113,26 @@ export const useAlert = (alert: Alert) => {
           highlightPage('nextPage');
           break;
         case 'ArrowRight':
+          setPageActive(true);
+          break;
         case 'Enter':
-          selectHighlightedPage();
-          // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-          pageClickHandler(pages.find(value => value.highlighted)!);
+          if (pages[0]['highlighted']) {
+            closeWidget();
+          } else {
+            setPageActive(true);
+          }
           break;
         case 'ArrowLeft':
-        case 'Backspace':
-          closeWidget();
+        case 'Backspace': {
+          if (!pageActive) {
+            closeWidget();
+          }
+          setPageActive(false);
           break;
+        }
       }
+
+      return false;
     },
     [pages, selectHighlightedPage, highlightPage, closeWidget, pageClickHandler],
   );
@@ -119,6 +145,8 @@ export const useAlert = (alert: Alert) => {
     selectedPage: pages.find(value => value.selected),
     pages,
     pageClickHandler,
+    pageActive,
+    setPageActive,
   };
 };
 

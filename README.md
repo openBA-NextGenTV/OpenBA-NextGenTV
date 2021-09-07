@@ -2,9 +2,18 @@
 
 #### yarn
 
+#### yarn start (with ?wsURL=ws://localhost:8889)
+
+###### WebStorm
+To start WebStorm with params, please, open the run/debug configurations, add before launch item 'Launch Web Browser'
+and past url: http://localhost:3000?wsURL=ws://localhost:8889
+
 #### yarn atscMockServer
 
-#### yarn start
+#### cloud-ba
+To start cloud-ba in browser
+http://localhost:3000/cloud-ba/index.html?WS=ws://localhost:8889/&URL=http://localhost:3000
+
 
 ### Configuring the BA
 

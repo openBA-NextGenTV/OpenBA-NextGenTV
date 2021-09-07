@@ -48,8 +48,13 @@ export const MonthAndDay = styled.div`
   white-space: nowrap;
 `;
 
+export const Img = styled.img`
+  width: 40px;
+  height: 40px;
+`;
+
 export const Image = styled.i`
-  margin: 20px;
+  margin: 10px;
   font-size: 40px;
 `;
 
@@ -57,20 +62,13 @@ export const SecondImage = styled.span``;
 
 export const Title = styled.div`
   font-size: 22px;
-  margin-bottom: 20px;
+  margin: 20px 0;
   color: black;
   text-align: center;
   padding: 0 10px;
   flex: 1 1 0;
   display: flex;
   align-items: center;
-`;
-
-export const Temp = styled.div`
-  font-size: 42px;
-  padding: 0 10px;
-  margin-bottom: 20px;
-  text-align: center;
 `;
 
 export const HiTemp = styled.span`
@@ -82,4 +80,11 @@ export const HiTemp = styled.span`
 export const LowTemp = styled.span`
   font-size: 26px;
   color: #8e9fb1;
+`;
+
+export const TemperatureContainer = styled.div`
+  display: flex;
+  gap: 40px;
+  align-items: center;
+  justify-content: center;
 `;

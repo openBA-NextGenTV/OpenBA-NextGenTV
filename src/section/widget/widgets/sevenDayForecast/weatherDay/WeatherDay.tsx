@@ -25,17 +25,19 @@ import {
   Date,
   HiTemp,
   Image,
+  Img,
   LowTemp,
   MonthAndDay,
   SecondImage,
-  Temp,
+  TemperatureContainer,
   Title,
   WeekDay,
 } from './WeatherDay.styled';
 
 export const WeatherDay: FC<Day> = ({
   dateTime,
-  image,
+  dayIconUrl,
+  dayIconCode,
   title,
   hiTemp,
   lowTemp,
@@ -44,27 +46,45 @@ export const WeatherDay: FC<Day> = ({
   windDirection,
   humidity,
   ultraviolet,
-}) => (
-  <Container>
-    <Date>
-      <WeekDay>{dateFormatWeekDay(dateTime)}</WeekDay>
-      <MonthAndDay>{dateFormatMonthAndDay(dateTime)}</MonthAndDay>
-    </Date>
+}) => {
+  const getWeatherIcon = () => {
+    if (dayIconCode) {
+      return (
+        <Image className={`wi wi-stk-${dayIconCode}`}>
+          <SecondImage />
+        </Image>
+      );
+    }
 
-    <Image className={`wi wi-stk-${image}`}>
-      <SecondImage />
-    </Image>
+    if (dayIconUrl) {
+      return <Img src={dayIconUrl} />;
+    }
+  };
 
-    <Title>{title}</Title>
+  return (
+    <Container>
+      <Date>
+        <WeekDay>{dateFormatWeekDay(dateTime)}</WeekDay>
+        <MonthAndDay>{dateFormatMonthAndDay(dateTime)}</MonthAndDay>
+      </Date>
 
-    <Temp>
-      <HiTemp>{hiTemp}°</HiTemp>
-      <LowTemp>{lowTemp}°</LowTemp>
-    </Temp>
+      <br />
 
-    <Property label="Precipitation" value={`${precipitation}%`} />
-    <Property label="Wind" value={`${wind} mph ${windDirection}`} />
-    <Property label="Humidity" value={`${humidity}%`} />
-    <Property label="UV" value={`${ultraviolet}`} />
-  </Container>
-);
+      {getWeatherIcon()}
+
+      {title && <Title>{title}</Title>}
+
+      <TemperatureContainer>
+        <HiTemp>{hiTemp}°</HiTemp>
+        {lowTemp && <LowTemp>{lowTemp}°</LowTemp>}
+      </TemperatureContainer>
+
+      <br />
+
+      {precipitation && <Property label="Precipitation" value={`${precipitation}%`} />}
+      <Property label="Wind" value={`${wind} mph ${windDirection}`} />
+      <Property label="Humidity" value={`${humidity}%`} />
+      {ultraviolet && <Property label="UV" value={`${ultraviolet}`} />}
+    </Container>
+  );
+};

@@ -16,7 +16,6 @@
  */
 
 import { DeviceMake } from '../../apollo/generated/graphql';
-import { IS_PROD } from '../../utils';
 import { Client } from './lib';
 import { ScalePositionOptions } from './websocket.types';
 
@@ -28,12 +27,7 @@ export let rpcClient: Client | undefined;
     return;
   }
 
-  let wsUrl;
-  if (IS_PROD) {
-    wsUrl = new URLSearchParams(window.location.search).get('wsURL');
-  } else {
-    wsUrl = 'ws://localhost:8889';
-  }
+  const wsUrl = new URLSearchParams(window.location.search).get('wsURL');
 
   if (wsUrl) {
     rpcClient = new Client(`${wsUrl}/atscCmd`);

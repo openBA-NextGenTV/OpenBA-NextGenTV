@@ -58,9 +58,9 @@
   },
   "scripts": {
     "start": "react-scripts start",
-    "atscMockServer": "node atscMockServer",
+    "atscMockServer": "node public/cloud-ba/atscMockServer",
     "test": "react-scripts test",
-    "build": "GENERATE_SOURCEMAP=false react-scripts build",
+    "build": "GENERATE_SOURCEMAP=false react-scripts build && sh ./pipeline/cleanupBuild.sh",
     "buildAndRun": "react-scripts build && npx http-server ./build",
     "analyze": "source-map-explorer 'build/static/js/*.js'",
     "codegen": "graphql-codegen --config codegen.yml"

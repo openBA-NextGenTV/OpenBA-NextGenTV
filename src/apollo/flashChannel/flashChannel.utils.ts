@@ -82,7 +82,7 @@ export const createAlertFromFlashChannel = (flashChannel: FlashChannel) =>
     pages: [
       {
         id: flashChannel.channelId,
-        imageUrl: '',
+        mediaUrl: '',
         story: `“${flashChannel.title}” is currently available. Please choose "Watch now" from the menu to view more information.`,
         title: 'Watch now available',
       },

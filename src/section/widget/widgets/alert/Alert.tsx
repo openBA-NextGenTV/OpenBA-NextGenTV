@@ -19,21 +19,20 @@ import { FC } from 'react';
 
 import { Alert as AlertModel } from '../../../../apollo/generated/graphql';
 import { WidgetComponentProps } from '../../index';
-import { Container } from './Alert.styles';
 import { AlertBody } from './alertBody';
 import { useAlert } from './hooks';
 import { SideMenu } from './sideMenu';
+import { Container } from './Styles';
 
 export const Alert: FC<WidgetComponentProps> = ({ widget: { payload } }) => {
   // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
   const alert: AlertModel = JSON.parse(payload!);
-  const { selectedPage, pages, pageClickHandler } = useAlert(alert);
-
+  const { selectedPage, pages, pageClickHandler, pageActive, setPageActive } = useAlert(alert);
   return (
     <Container>
       <SideMenu pages={pages} onPageClick={pageClickHandler} />
 
-      <AlertBody alert={alert} page={selectedPage} />
+      <AlertBody alert={alert} page={selectedPage} pageActive={pageActive} setPageActive={setPageActive} />
     </Container>
   );
 };

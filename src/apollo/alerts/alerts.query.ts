@@ -35,7 +35,7 @@ const GET_ALERTS = gql`
         id
         title
         story
-        imageUrl
+        mediaUrl
       }
     }
   }

@@ -1,21 +1,28 @@
 export type ResultData = {
-  city: string;
-  state: string;
+  location: string;
   headerTemp: number;
-  headerImage: number;
+
+  headerIconCode?: number;
+  headerIconUrl?: string;
+
   headerTitle: string;
   days: Day[];
 };
 
 export type Day = {
   dateTime: number;
-  image: number;
-  title: string;
+
+  dayIconCode?: string;
+  nighIconCode?: string;
+  dayIconUrl?: string;
+  nighIconUrl?: string;
+
+  title?: string;
   hiTemp: number;
   lowTemp: number;
-  precipitation: number;
+  precipitation?: number;
   wind: number;
   windDirection: string;
   humidity: number;
-  ultraviolet: string;
+  ultraviolet?: string;
 };

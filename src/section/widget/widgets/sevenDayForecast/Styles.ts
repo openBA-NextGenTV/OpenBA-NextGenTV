@@ -23,10 +23,9 @@ import { weatherIcons } from './weatherIcons';
 export const Container = styled.div`
   display: flex;
   flex-direction: column;
-  align-items: center;
-  width: 100%;
   height: 100%;
   background-color: white;
+  width: 100%;
   ${weatherIcons}
 `;
 
@@ -45,7 +44,7 @@ export const ContainerMessage = styled.div`
 export const ContainerHeader = styled.div`
   display: flex;
   flex-wrap: wrap;
-  width: 100%;
+  align-items: center;
   padding: 20px;
   color: white;
   background-color: #3274b9;
@@ -54,25 +53,26 @@ export const ContainerHeader = styled.div`
 export const HeaderTemp = styled.div`
   font-size: 56px;
   line-height: 50px;
-  margin: 0 26px 5px 0;
-`;
-
-export const HeaderImage = styled.i`
-  width: 44px;
-  font-size: 40px;
   margin-right: 26px;
-  margin-top: auto;
-  margin-bottom: 5px;
 `;
 
-export const HeaderTitle = styled.div`
+export const HeaderIcon = styled.img`
+  width: 44px;
+  margin-right: 26px;
+`;
+
+export const HeaderIconCode = styled.i`
+  font-size: 40px;
+  margin: -10px 26px 0 0;
+`;
+
+export const HeaderTitle = styled.p`
   font-size: 20px;
-  margin: auto 26px 5px 0;
 `;
 
-export const HeaderLocation = styled.div`
+export const HeaderLocation = styled.p`
   font-size: 36px;
-  margin: 5px 0 5px auto;
+  margin-left: auto;
   @media (max-width: ${breakpoints.desktop}px) {
     font-size: 28px;
   }
@@ -82,9 +82,9 @@ export const WeatherDays = styled.div`
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
-  width: 100%;
   padding: 5px;
   overflow-y: auto;
+  width: 100%;
 
   & > div:first-child > div:first-child {
     background-color: green;

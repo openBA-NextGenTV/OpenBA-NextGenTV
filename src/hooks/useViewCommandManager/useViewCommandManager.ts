@@ -48,6 +48,11 @@ const keydownHandler = (event: KeyboardEvent) => {
     command = KEY_CODES_COMMANDS[event.keyCode];
   }
 
+  if (ARROWS.includes(command)) {
+    // workaround to prevent uncontrolled dom navigation that causes unexpected jumps in menu
+    event.preventDefault();
+  }
+
   if (ALL_COMMANDS.includes(command as Command)) {
     // if view has listener then listener could decide pass this command to the next listener or not.
     [...registeredViews].reverse().every(view => (view.listener ? view.listener(command as Command) : false));

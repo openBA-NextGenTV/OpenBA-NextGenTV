@@ -19,7 +19,7 @@ import { FC } from 'react';
 
 import { PageItemModel } from '../hooks';
 import { WithRendererContainer } from './renderer';
-import { Container, Wrapper } from './SideMenu.styles';
+import { Container, Wrapper } from './Styles';
 
 type Props = {
   pages?: PageItemModel[];

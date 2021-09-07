@@ -8,7 +8,7 @@ import { GetPriorityDocument } from '../apollo/generated/graphql';
 import { I18NProvider } from '../i18n';
 import { Priority } from '../section/widget/widgets';
 
-test('verify all items are present', () => {
+test.skip('verify all items are present', () => {
   const mockData = {
     request: {
       query: GetPriorityDocument,

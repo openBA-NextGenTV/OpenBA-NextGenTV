@@ -99,11 +99,11 @@ const mapAlerts = (alerts: AlertType[], alertFeeds: AlertFeed[], pathToAlert: st
             id: feed.title,
             title: feed.title,
             story: feed.story,
-            imageUrl: null,
+            mediaUrl: null,
           };
 
           if (feed.media.length) {
-            result.imageUrl = pathToAlert + feed.media[0].thumbnail.replace('../', '') || null;
+            result.mediaUrl = pathToAlert + feed.media[0].thumbnail.replace('../', '') || null;
           }
 
           return result;

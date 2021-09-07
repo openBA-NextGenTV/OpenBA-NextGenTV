@@ -93,7 +93,7 @@ export const watchAEATAlerts = (handleNewAlerts: (alerts: Alert[]) => void) => {
             id: uuidv4(),
             title: eventDesc,
             story: aeaText,
-            imageUrl: null,
+            mediaUrl: null,
           },
         ],
       };

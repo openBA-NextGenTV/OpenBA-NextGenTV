@@ -205,7 +205,7 @@ export type Page = {
   id: Scalars['ID'];
   title: Scalars['String'];
   story: Scalars['String'];
-  imageUrl?: Maybe<Scalars['String']>;
+  mediaUrl?: Maybe<Scalars['String']>;
 };
 
 export enum Priority {
@@ -279,7 +279,7 @@ export type GetAlertsQueryVariables = Exact<{ [key: string]: never; }>;
 
 export type GetAlertsQuery = { alerts: Array<(
     Pick<Alert, 'id' | 'alertBarTitle' | 'menuTitle' | 'expire' | 'latestPublishTime' | 'priority' | 'targets' | 'eventCode' | 'iconPath' | 'bgColor'>
-    & { pages: Array<Pick<Page, 'id' | 'title' | 'story' | 'imageUrl'>> }
+    & { pages: Array<Pick<Page, 'id' | 'title' | 'story' | 'mediaUrl'>> }
   )> };
 
 export type GetHiddenAlertQueryVariables = Exact<{ [key: string]: never; }>;
@@ -493,7 +493,7 @@ export const GetAlertsDocument = gql`
       id
       title
       story
-      imageUrl
+      mediaUrl
     }
   }
 }

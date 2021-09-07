@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CloudBA</title>
+    <script src="dash.all.min.js"></script>
+    <script src="hls.min.js"></script>
+    <style>
+        * {
+            padding: 0;
+            margin: 0;
+            box-sizing: border-box;
+        }
+        html, body {
+            overflow: hidden;
+            width: 100vw;
+            height: 100vh;
+            background: #000;
+        }
+        .fullscreen {
+            height: 100%;
+            width: 100%;
+            left: 0;
+            top: 0;
+            border: none;
+            position: fixed;
+        }
+
+        #videoplayer {
+            background: #000;
+            transition: width 0.25s linear 0s, height 0.25s linear 0s, top 0.25s linear 0s, left 0.25s linear 0s;
+        }
+
+        .controls {
+            position: fixed;
+            right: 20px;
+            top: 20px;
+            display: flex;
+        }
+
+        .control {
+            padding: 1em;
+            cursor: pointer;
+        }
+
+        .control:hover {
+            background-color: rgba(255, 255, 255, 0.2);
+            border-radius: 35%;
+        }
+
+        .control .btn {
+            width: 2em;
+            height: 2em;
+            background-size: contain;
+            background-repeat: no-repeat;
+            background-position: center;
+            filter: drop-shadow(0 0 2px rgba(0,0,0,0.2));
+            opacity: 1;
+        }
+
+        /* controls */
+
+        #soundBtn .btn {
+            opacity: 0;
+            background-image: url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjQiIGhlaWdodD0iMjQiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PGcgY2xpcC1wYXRoPSJ1cmwoI2NsaXAwKSI+PHBhdGggZmlsbC1ydWxlPSJldmVub2RkIiBjbGlwLXJ1bGU9ImV2ZW5vZGQiIGQ9Ik0xNCA1LjQxNEMxNCAzLjYzMiAxMS44NDYgMi43NCAxMC41ODYgNGwtNCA0SDRhMiAyIDAgMDAtMiAydjRhMiAyIDAgMDAyIDJoMi41ODZsNCA0YzEuMjYgMS4yNiAzLjQxNC4zNjggMy40MTQtMS40MTRWNS40MTR6bS02IDRsNC00djEzLjE3MmwtNC00QTIgMiAwIDAwNi41ODYgMTRINHYtNGgyLjU4NkEyIDIgMCAwMDggOS40MTR6bTEyLjY1Mi01LjE0YTEgMSAwIDEwLTEuMzc2IDEuNDUyQzIwLjk2MiA3LjMyNCAyMiA5LjU0NiAyMiAxMnMtMS4wMzggNC42NzYtMi43MjQgNi4yNzRhMSAxIDAgMTAxLjM3NiAxLjQ1MkMyMi43MTIgMTcuNzcyIDI0IDE1LjAzNCAyNCAxMnMtMS4yODgtNS43NzItMy4zNDgtNy43MjZ6bS0yLjk3IDIuODc1YTEgMSAwIDEwLTEuMzYzIDEuNDY0QTQuNjEzIDQuNjEzIDAgMDExNy44MDggMTJhNC42MTMgNC42MTMgMCAwMS0xLjQ5IDMuMzg3IDEgMSAwIDEwMS4zNjMgMS40NjRBNi42MTIgNi42MTIgMCAwMDE5LjgwOCAxMmE2LjYxMiA2LjYxMiAwIDAwLTIuMTI4LTQuODUyeiIgZmlsbD0iI2ZmZiI+PC9wYXRoPjwvZz48ZGVmcz48Y2xpcFBhdGggaWQ9ImNsaXAwIj48cGF0aCBmaWxsPSIjZmZmIiBkPSJNMCAwaDI0djI0SDB6Ij48L3BhdGg+PC9jbGlwUGF0aD48L2RlZnM+PC9zdmc+');
+        }
+
+        #soundBtn:hover .btn {
+            opacity: 1;
+        }
+
+        #soundBtn.muted .btn {
+            background-image: url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjQiIGhlaWdodD0iMjQiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PGcgY2xpcC1wYXRoPSJ1cmwoI2NsaXAwKSI+PHBhdGggZmlsbC1ydWxlPSJldmVub2RkIiBjbGlwLXJ1bGU9ImV2ZW5vZGQiIGQ9Ik0xMC41ODYgNEMxMS44NDYgMi43NCAxNCAzLjYzMiAxNCA1LjQxNHYxMy4xNzJjMCAxLjc4Mi0yLjE1NCAyLjY3NC0zLjQxNCAxLjQxNGwtNC00SDRhMiAyIDAgMDEtMi0ydi00YTIgMiAwIDAxMi0yaDIuNTg2bDQtNHpNMTIgNS40MTRsLTQgNEEyIDIgMCAwMTYuNTg2IDEwSDR2NGgyLjU4NkEyIDIgMCAwMTggMTQuNTg2bDQgNFY1LjQxNHptMTAuMjkzIDEwLjEyMmExIDEgMCAwMDEuNDE0LTEuNDE1TDIxLjU4NiAxMmwyLjEyMS0yLjEyMWExIDEgMCAwMC0xLjQxNC0xLjQxNGwtMi4xMjEgMi4xMi0yLjEyMi0yLjEyYTEgMSAwIDEwLTEuNDE0IDEuNDE0TDE4Ljc1NyAxMmwtMi4xMiAyLjEyMWExIDEgMCAxMDEuNDEzIDEuNDE1bDIuMTIyLTIuMTIyIDIuMTIgMi4xMjJ6IiBmaWxsPSIjZmZmIj48L3BhdGg+PC9nPjxkZWZzPjxjbGlwUGF0aCBpZD0iY2xpcDAiPjxwYXRoIGZpbGw9IiNmZmYiIGQ9Ik0wIDBoMjR2MjRIMHoiPjwvcGF0aD48L2NsaXBQYXRoPjwvZGVmcz48L3N2Zz4=');
+            opacity: 1;
+        }
+
+    </style>
+</head>
+<body>
+<video id="videoplayer" controls autoplay muted="muted" class="fullscreen">
+</video>
+<iframe id="ba" class="fullscreen"></iframe>
+<div class="controls">
+    <div id="soundBtn" class="control muted">
+        <div class="btn"></div>
+    </div>
+</div>
+<script>
+    const mediaTypes = {
+        hls: {
+            name: 'hls',
+            check: _ => _.match('.m3u8$|.m3u$'),
+        },
+        dash: {
+            name: 'dash',
+            check: _ => _.match('.mpd$'),
+        },
+        mp4: {
+            name: 'mp4',
+            check: _ => _.match('.mp4$'),
+        },
+    };
+
+    const config = readParams();
+    const mediaType = getMediaType();
+    let playerElm = document.getElementById('videoplayer');
+    let baElm = document.getElementById('ba');
+    let controls = document.querySelector('.controls');
+    let soundBtn = document.getElementById('soundBtn');
+    let playerState;
+    let dashPlayer;
+    let hlsPlayer;
+    let socket;
+    const scale = {scaleFactor: 100, xPos: 0, yPos: 0};
+
+    function getMediaType() {
+        const url = config.Media.toLowerCase();
+        if( mediaTypes.hls.check(url) ) return mediaTypes.hls;
+        if( mediaTypes.dash.check(url) ) return mediaTypes.dash;
+        if( mediaTypes.mp4.check(url) ) return mediaTypes.mp4;
+    }
+
+    function removeTrailingSlash(url) {
+        return url.replace(/\/+$/, '');
+    }
+
+    function readParams() {
+        const queryString = window.location.search;
+        const urlParams = new URLSearchParams(queryString);
+        return {
+            Media: urlParams.get("Media") || 'rmp-video.mp4',
+            URL: urlParams.get("URL") || '',
+            WS: removeTrailingSlash(urlParams.get("WS") || '')
+        };
+    }
+
+    function setupVideo(url) {
+        if(mediaType === mediaTypes.hls){
+            hlsPlayer = new Hls();
+            hlsPlayer.loadSource(url);
+            hlsPlayer.attachMedia(playerElm);
+        } else if (mediaType === mediaTypes.dash) {
+            dashPlayer = dashjs.MediaPlayer().create();
+            dashPlayer.initialize(playerElm, url, true);
+        } else {
+            playerElm.src = url;
+        }
+
+        Object.keys(playerEventTypes).forEach((event) => playerElm.addEventListener(event, (e) => playerState = e.type));
+        playerElm.controls = false;
+        soundBtn.addEventListener('click', () => {
+            soundBtn.classList.toggle("muted");
+            playerElm.muted = !playerElm.muted;
+        });
+        playerElm.onpause = () => { soundBtn.style.display = 'none'; };
+        playerElm.onplaying = () => { soundBtn.style.display = ''; };
+    }
+
+    function setupBA(src, ws){
+        baElm.src = src + (ws ? '?wsURL=' + ws :  '');
+    }
+
+    function setupWS(ws){
+        socket = new WebSocket(ws + '/' + '/shim');
+
+        socket.onmessage = (e) => {
+            const incomingMessage = JSON.parse(e.data);
+            if (!!incomingMessage.jsonrpc && !!incomingMessage.method) {
+                if (!jsonRPC[incomingMessage.method]){
+                    console.warn(`Warning: jsonRPC method ${incomingMessage.method} not implemented in shim`);
+                    return;
+                }
+                jsonRPC[incomingMessage.method](incomingMessage.id, incomingMessage.params);
+            }
+        };
+
+        socket.onopen = () => { console.log("ws connection open");};
+        socket.onerror = (e) => { console.error(e.message) };
+    }
+
+    function generateWhitelist(list){
+        const whitelist = list.concat(window.location.origin).filter(_ => _).map(elm => {
+            const url = new URL(elm);
+            return url.origin + '/.*';
+        });
+        return JSON.stringify(whitelist);
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+        try{
+            setupVideo(config.Media);
+            setupBA(config.URL, config.WS);
+            setupWS(config.WS);
+        } catch(e){
+            alert(e);
+            console.error(e);
+        }
+    });
+
+    const scalePosition = (id, params) => {
+        playerElm.style.width = params.scaleFactor + '%';
+        playerElm.style.height = params.scaleFactor + '%';
+        playerElm.style.top = params.yPos + '%';
+        playerElm.style.left = params.xPos + '%';
+
+        scale.scaleFactor = params.scaleFactor;
+        scale.xPos = params.xPos;
+        scale.yPos = params.yPos;
+    };
+    window.addEventListener('resize', () => {scalePosition(0, scale)});
+
+    const rmpPlaybackState = (id) => {
+        let playbackState;
+        switch (playerState) {
+            case playerEventTypes.playing:
+                playbackState = 0;
+                break;
+            case playerEventTypes.paused:
+                playbackState = 1;
+                break;
+            case playerEventTypes.ended:
+                playbackState = 2;
+                break;
+            default:
+                playbackState = -1;
+                break;
+        }
+        socket.send(JSON.stringify({
+            jsonrpc: 2.0,
+            id: id,
+            result: {
+                playbackState: playbackState
+            }
+        }));
+    };
+
+    const setRMPURL = (id, params) => {
+        switch (params.operation) {
+            case 'resumeService':
+                playerElm.play();
+                break;
+            case 'stopRmp':
+                playerElm.pause();
+                break;
+            case 'startRmp':
+                if(config.MediaType === mediaTypes.hls){
+                    hlsPlayer.loadSource(params.rmpurl);
+                }else{
+                    dashPlayer.attachSource(params.rmpurl);
+                }
+                break;
+            default:
+                console.error('invalid ' + params);
+        }
+    };
+
+    const jsonRPC = {
+        "org.atsc.scale-position" : scalePosition,
+        "org.atsc.query.rmpPlaybackState" : rmpPlaybackState,
+        "org.atsc.setRMPURL" : setRMPURL,
+    };
+
+    const playerEventTypes = {
+        playing: 'playing',
+        paused: 'paused',
+        ended: 'ended',
+        error: 'error'
+    };
+</script>
+</body>
+</html>
