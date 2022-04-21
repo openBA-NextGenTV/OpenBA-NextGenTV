@@ -1,0 +1,100 @@
+{
+  "name": "broadcast-application",
+  "version": "2.1.0",
+  "private": true,
+  "homepage": ".",
+  "scripts": {
+    "start": "react-scripts start",
+    "start:mockServer": "node public/cloud-ba/atscMockServer",
+    "build": "GENERATE_SOURCEMAP=false react-scripts build && sh ./pipeline/cleanupBuild.sh",
+    "test": "react-scripts test",
+    "eject": "react-scripts eject",
+    "lint": "eslint . --ext .ts,.tsx --color",
+    "ts-lint": "tsc --noEmit",
+    "format": "yarn lint --fix",
+    "prepare": "husky install"
+  },
+  "lint-staged": {
+    "src/**/*.{ts,tsx}": [
+      "yarn lint"
+    ]
+  },
+  "dependencies": {
+    "@google-cloud/storage": "^5.14.2",
+    "@reduxjs/toolkit": "^1.6.1",
+    "@testing-library/jest-dom": "^5.11.4",
+    "@testing-library/react": "^11.1.0",
+    "@testing-library/user-event": "^12.1.10",
+    "axios": "^0.21.4",
+    "date-fns": "^2.25.0",
+    "eslint-plugin-sort-keys-fix": "^1.1.2",
+    "fast-xml-parser": "^3.20.0",
+    "hls.js": "^0.14.17",
+    "json-rpc-protocol": "^0.13.1",
+    "normalize.css": "^8.0.1",
+    "qrcode.react": "^1.0.1",
+    "react": "^17.0.2",
+    "react-dom": "^17.0.2",
+    "react-ga4": "^1.4.1",
+    "react-hash-string": "^1.0.0",
+    "react-redux": "^7.2.5",
+    "react-resize-detector": "^6.7.6",
+    "react-router-dom": "^6.2.1",
+    "react-scripts": "4.0.3",
+    "react-slick": "^0.28.1",
+    "react-ticker": "^1.2.2",
+    "redux": "^4.1.1",
+    "redux-persist": "^6.0.0",
+    "reselect": "^4.1.5",
+    "slick-carousel": "^1.8.1",
+    "styled-components": "^5.3.1",
+    "uuid": "^8.3.2",
+    "web-vitals": "^1.0.1"
+  },
+  "devDependencies": {
+    "@types/hls.js": "^0.13.3",
+    "@types/jest": "^26.0.15",
+    "@types/node": "^12.0.0",
+    "@types/qrcode.react": "^1.0.2",
+    "@types/react": "^17.0.37",
+    "@types/react-dom": "^17.0.0",
+    "@types/react-slick": "^0.23.8",
+    "@types/styled-components": "^5.1.14",
+    "@types/uuid": "^8.3.1",
+    "@typescript-eslint/eslint-plugin": "^5.6.0",
+    "@typescript-eslint/parser": "^5.6.0",
+    "babel-eslint": "^10.1.0",
+    "bestzip": "^2.2.0",
+    "eslint-config-airbnb": "^19.0.2",
+    "eslint-config-airbnb-typescript": "^16.1.0",
+    "eslint-config-prettier": "^8.3.0",
+    "eslint-config-react-app": "^6.0.0",
+    "eslint-plugin-flowtype": "^8.0.3",
+    "eslint-plugin-jsx-a11y": "^6.5.1",
+    "eslint-plugin-prettier": "^4.0.0",
+    "eslint-plugin-react": "^7.27.1",
+    "eslint-plugin-react-hooks": "^4.3.0",
+    "eslint-plugin-simple-import-sort": "^7.0.0",
+    "eslint-plugin-typescript-sort-keys": "^2.1.0",
+    "husky": "^7.0.0",
+    "lint-staged": "^12.1.2",
+    "prettier": "^2.5.1",
+    "typescript": "^4.5.2",
+    "typescript-styled-plugin": "^0.18.1"
+  },
+  "engines": {
+    "node": "16.x"
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  }
+}
