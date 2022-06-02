@@ -256,4 +256,4 @@ NRT (Non-Real Time) - it's file that delivered via external service (ex. Digicas
 
 ATSC Communication - it's RPC calls via websocket between TV and Broadcast Application.
 
-AEAT messages - it's just a message that comes from websocket by subscribing to org.atsc.notify
+AEAT messages - it's just a message that comes from websocket by subscribing to org.atsc.notify.
