@@ -20,5 +20,9 @@
  * SOFTWARE.
  */
 
-export { default as MaxReconnectAttemptsExceedError } from './MaxReconnectAttemptsExceedError';
-export { default as WsClientInternalError } from './ WsClientInternalError';
+export default class WsClientInternalError extends Error {
+  constructor(message: string) {
+    super(message);
+    this.name = 'WsClientInternalError';
+  }
+}

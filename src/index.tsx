@@ -25,19 +25,22 @@ import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
 import { persistor, store } from 'redux/store';
 import { PersistGate } from 'redux-persist/integration/react';
+import { ErrorBoundaryWS } from 'components/ErrorHandling/ErrorBoundaryWS';
 import { App } from './App';
 import reportWebVitals from './reportWebVitals';
 import 'normalize.css';
 import './styles/globalStyles.css';
 
 ReactDOM.render(
-  <StrictMode>
-    <Provider store={store}>
-      <PersistGate loading={null} persistor={persistor}>
-        <App />
-      </PersistGate>
-    </Provider>
-  </StrictMode>,
+  <ErrorBoundaryWS>
+    <StrictMode>
+      <Provider store={store}>
+        <PersistGate loading={null} persistor={persistor}>
+          <App />
+        </PersistGate>
+      </Provider>
+    </StrictMode>
+  </ErrorBoundaryWS>,
   document.getElementById('root')
 );
 
