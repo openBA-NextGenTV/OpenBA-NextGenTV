@@ -28,6 +28,6 @@ export {
   InvalidParameters,
 } from 'json-rpc-protocol';
 
-export { InternalError, MaxReconnectAttemptsExceedError } from './errors';
+export { WsClientInternalError, MaxReconnectAttemptsExceedError } from './errors';
 
 export { Client } from './client';

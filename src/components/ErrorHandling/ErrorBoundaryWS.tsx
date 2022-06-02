@@ -20,9 +20,41 @@
  * SOFTWARE.
  */
 
-export default class InternalError extends Error {
-  constructor(message: string) {
-    super(message);
-    this.name = this.constructor.name;
+import { Component, ReactNode } from 'react';
+import { WsClientInternalError } from 'services/websocket/lib/errors';
+
+interface Props {
+  children: ReactNode;
+}
+interface State {
+  wsError: boolean;
+}
+export class ErrorBoundaryWS extends Component<Props, State> {
+  constructor(props: Props) {
+    super(props);
+    this.state = { wsError: false };
+  }
+
+  componentDidMount() {
+    window.addEventListener('unhandledrejection', this.promiseRejectionHandler);
+  }
+
+  componentWillUnmount() {
+    window.removeEventListener('unhandledrejection', this.promiseRejectionHandler);
+  }
+
+  private promiseRejectionHandler = (event: PromiseRejectionEvent) => {
+    if (event.reason.name === WsClientInternalError.name)
+      this.setState({
+        wsError: true,
+      });
+  };
+
+  public render() {
+    if (this.state.wsError) {
+      return null;
+    }
+
+    return this.props.children;
   }
 }

@@ -37,7 +37,7 @@ import {
   parse,
 } from 'json-rpc-protocol';
 import { ClientOptions, ReconnectOptions } from './client.types';
-import { InternalError, MaxReconnectAttemptsExceedError } from './errors';
+import { MaxReconnectAttemptsExceedError, WsClientInternalError } from './errors';
 
 const RESERVED_EVENTS = [
   'error',
@@ -84,9 +84,10 @@ export class Client extends EventEmitter {
 
   open() {
     if (this.client) {
-      this.emit('error', new InternalError("Client exists, can't open a new websocket connection"));
-
-      return;
+      this.emit(
+        'error',
+        new WsClientInternalError("Client exists, can't open a new websocket connection")
+      );
     }
 
     this.client = new WebSocket(this.endpoint);
@@ -103,7 +104,10 @@ export class Client extends EventEmitter {
     this.cleanupReconnect();
 
     if (!this.client) {
-      this.emit('error', new InternalError("Client missing, can't close websocket connection"));
+      this.emit(
+        'error',
+        new WsClientInternalError("Client missing, can't close websocket connection")
+      );
 
       return;
     }
@@ -135,7 +139,7 @@ export class Client extends EventEmitter {
           this.client?.send(message);
 
           const timeout = window.setTimeout(() => {
-            reject(new InternalError(`Call on method '${method}' timed out`));
+            reject(new WsClientInternalError(`Call on method '${method}' timed out`));
           }, this.options.callTimeout);
 
           const protocolResponseHandler = (receivedId: number, result: any) => {
@@ -153,7 +157,7 @@ export class Client extends EventEmitter {
           };
 
           const closeHandler = () => {
-            const closeError = new InternalError(
+            const closeError = new WsClientInternalError(
               `Call on method ${method} failed, broken connection`
             );
 
@@ -191,7 +195,7 @@ export class Client extends EventEmitter {
         if (this.isOpen()) {
           resolve();
         } else {
-          reject(new InternalError(`Client gone, can't request`));
+          reject(new WsClientInternalError(`Client gone, can't request`));
         }
       };
 
@@ -224,9 +228,7 @@ export class Client extends EventEmitter {
     try {
       parsedMessage = parse(message.data);
     } catch (error) {
-      this.emit('error', error);
-
-      return;
+      parsedMessage = { type: 'error', error };
     }
 
     this.handleMessage(parsedMessage as JsonRpcPayload);
