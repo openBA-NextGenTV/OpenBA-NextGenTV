@@ -22,7 +22,6 @@ yarn install
 
 Such a config is needed by the application to determine the targeting of alerts in the application, fipsToZip, a field that determines the involvement of zips in a specific zone of zips
 
-
 ```json
 {
   "fipsToZip": {
@@ -55,6 +54,12 @@ Such a config is needed by the application to determine the targeting of alerts 
   },
   "privacyPolicy": "<p>Privacy Policy</p>"
 }
+```
+
+## Build
+
+```npm
+yarn build
 ```
 
 ## Start

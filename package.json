@@ -6,7 +6,7 @@
   "scripts": {
     "start": "react-scripts start",
     "start:mockServer": "node public/cloud-ba/atscMockServer",
-    "build": "GENERATE_SOURCEMAP=false react-scripts build && sh ./pipeline/cleanupBuild.sh",
+    "build": "cross-env GENERATE_SOURCEMAP=false react-scripts build && sh ./pipeline/cleanupBuild.sh",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "lint": "eslint . --ext .ts,.tsx --color",
@@ -26,6 +26,7 @@
     "@testing-library/react": "^11.1.0",
     "@testing-library/user-event": "^12.1.10",
     "axios": "^0.21.4",
+    "cross-env": "^7.0.3",
     "date-fns": "^2.25.0",
     "eslint-plugin-sort-keys-fix": "^1.1.2",
     "fast-xml-parser": "^3.20.0",
