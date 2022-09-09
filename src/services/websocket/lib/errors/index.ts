@@ -21,4 +21,4 @@
  */
 
 export { default as MaxReconnectAttemptsExceedError } from './MaxReconnectAttemptsExceedError';
-export { default as WsClientInternalError } from './ WsClientInternalError';
+export { default as WsClientInternalError } from './WsClientInternalError';
