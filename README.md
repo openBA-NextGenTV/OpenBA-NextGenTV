@@ -6,17 +6,13 @@ The Broadcast Application is an open source web application that can be launched
 
 `OpenBA-NextGenTV` is released under the [MIT License](/LICENSE.md).
 
-## Set up
+## Local development set up
 
-After you have cloned the repository to your local machine, you need to make the below configurations in order for the application to work correctly. The exact paths must be used in order for the aplication to run properly.
+After you have cloned the repository to your local machine, you need to make the below configurations in order for the application to work correctly. The exact paths must be used in order for the application to run properly.
 
 1. add public/stations/appConfig.json like in "DMA appConfig.json example" section
 2. add public/stations/local-station/appConfig.json like in "appConfig.json example" section
 3. add public/stations/local-station/logo.png (any image)
-
-```npm
-yarn install
-```
 
 ### DMA appConfig.json example
 
@@ -56,10 +52,8 @@ Such a config is needed by the application to determine the targeting of alerts 
 }
 ```
 
-## Build
-
 ```npm
-yarn build
+yarn install
 ```
 
 ## Start
@@ -73,6 +67,38 @@ yarn start
 ```
 
 open <http://localhost:3000/cloud-ba/index.html?WS=ws://localhost:8889/&URL=http://localhost:3000>
+
+## TV testing
+
+Before you make a build that goes to TV you need to follow the setup steps for local development with some changes.
+
+1. Complete all setup steps for the local development setup.
+2. In the "stations" folder, you can rename the "local-station" folder or leave it as it is. How the name of this folder will be further, for example, "stationName".
+3. In the "stations" folder in the appConfig.json file, you need to expand json as below. To do this, you need to specify the Global Service ID as a field in the "station" object, this is the answer from "org.atsc.query.service"
+
+### Extended appConfig.json example
+
+```json
+{
+  "fipsToZip": {
+    "032017": [
+      "89001",
+      "89008"
+      ]
+  },
+  "stations": {
+    "globalServiceId": "stationName"
+  }
+}
+```
+
+## Build
+
+```npm
+yarn build
+```
+
+After that, you can deliver your build to TV and test it.
 
 ## Configuring the BA with station appConfig.json
 
