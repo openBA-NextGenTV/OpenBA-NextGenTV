@@ -33,7 +33,6 @@ export const fetchAppConfig = createAsyncThunk(
   async (_, { rejectWithValue, getState }) => {
     const state = getState() as RootState;
     const globalId = deviceSelectors.getGlobalId(state);
-    const stationFromGlobalId = globalId?.split(':')[2].toLowerCase();
 
     try {
       if (!globalId) {
@@ -46,7 +45,8 @@ export const fetchAppConfig = createAsyncThunk(
           throw new Error('Could not read dmaAppConfig');
         });
 
-      const stationFromDmaAppConfig = dmaAppConfig.stations?.[globalId];
+      const stationFromDmaAppConfig = dmaAppConfig?.stations?.[globalId];
+      const stationFromGlobalId = globalId?.split(':')[2]?.toLowerCase();
       const stationName = stationFromDmaAppConfig || stationFromGlobalId;
 
       if (!stationName) {
